@@ -11,11 +11,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+from os.path import join
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 拼接路径为当前绝对路径下的.env文件
+dotenv_path = join(BASE_DIR, '.env')
+# load_dotenv作用解析.env文件的配置项写入环境变量
+load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -27,7 +33,6 @@ SECRET_KEY = 'ez9z3a4m*$%srn9ve_t71yd!v+&xn9@0k(e(+l6#g1h=e5i4da'
 
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -46,7 +51,9 @@ INSTALLED_APPS = [
     'simple_history',
     'apps.system',
     'apps.monitor',
-    'apps.wf'
+    'apps.wf',
+    'django_extensions',
+    'stock.apps.StockConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -104,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -117,7 +122,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -177,27 +181,27 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 缓存配置,有需要可更改为redis
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://redis:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "PICKLE_VERSION": -1
-#         }
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get("CELERY_BEAT_SCHEDULER_AUTH"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PICKLE_VERSION": -1
+        }
+    }
+}
 
 # celery配置,celery正常运行必须安装redis
-CELERY_BROKER_URL = "redis://localhost:6379/0"   # 任务存储
+CELERY_BROKER_URL = os.environ.get("CELERY_BEAT_SCHEDULER_AUTH"),  # 任务存储
 CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行300个任务就会被销毁，可防止内存泄露
 CELERY_TIMEZONE = 'Asia/Shanghai'  # 设置时区
 CELERY_ENABLE_UTC = True  # 启动时区设置
 
 # swagger配置
 SWAGGER_SETTINGS = {
-   'LOGIN_URL':'/api/admin/login/',
-   'LOGOUT_URL':'/api/admin/logout/'
+    'LOGIN_URL': '/api/admin/login/',
+    'LOGOUT_URL': '/api/admin/logout/'
 }
 
 # 日志配置
@@ -280,3 +284,25 @@ LOGGING = {
         },
     }
 }
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get("DB_ENGINE"),
+        'NAME': os.environ.get("DB_DATABASE"),
+        'HOST': os.environ.get("DB_HOST"),
+        'PORT': int(os.environ.get("DB_PORT")),
+        'USER': os.environ.get("DB_USERNAME"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        # 'OPTIONS': {
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        # },
+    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+}
+
+# celery配置
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERYBEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

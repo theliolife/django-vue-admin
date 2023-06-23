@@ -25,6 +25,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 from django.views.generic import TemplateView
+from stock.views import getBasic
 
 router = routers.DefaultRouter()
 router.register('', FileViewSet, basename="file")
@@ -57,7 +58,9 @@ urlpatterns = [
     path('api/docs/', include_docs_urls(title="接口文档", authentication_classes=[], permission_classes=[])),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    
+
+    path('api/stock/', include('stock.urls')),
+
     # 前端页面入口
     path('',TemplateView.as_view(template_name="index.html"))
 ] + \
