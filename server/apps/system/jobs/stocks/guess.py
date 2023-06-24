@@ -96,7 +96,7 @@ def stat_all_batch(tmp_datetime):
         print("error :", e)
 
     sql_count = """
-    SELECT count(1) FROM  stock_zh_ah_name WHERE `date` = %s and `open` > 0
+    SELECT count(1) FROM  stock_zh_a_spot_em WHERE `date` = %s and `open` > 0
     """
     # 修改逻辑，增加中小板块计算。 中小板：002，创业板：300 。已经是经过筛选的数据了。
     count = common.select_count(sql_count, params=[datetime_int])
@@ -111,13 +111,17 @@ def stat_all_batch(tmp_datetime):
         sql_1 = """ 
                     SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
                             `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`
-                    FROM stock_zh_ah_name WHERE `date` = %s and `open` > 0  limit %s , %s
+                    FROM stock_zh_a_spot_em WHERE `date` = %s and `open` > 0  limit %s , %s
                     """
-        print(sql_1)
         # data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%', i, batch_size])
         data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, i, batch_size])
         data = data.drop_duplicates(subset="code", keep="last")
         print("########data[latest_price]########:", len(data))
+        if len(data) != 0:
+            continue
+
+        print(111)
+        exit(1)
         stat_index_all(data, i)
 
 
@@ -128,7 +132,6 @@ def stat_index_all(data, idx):
     # open price change (in percent) between today and the day before yesterday ‘r’ stands for rate.
     # stock[‘close_-2_r’]
     # 可以看到，-n天数据和今天数据的百分比。
-
 
     # 2), CR指标
     # http://wiki.mbalib.com/wiki/CR%E6%8C%87%E6%A0%87 价格动量指标
@@ -327,11 +330,10 @@ def apply_guess(tmp, stock_column):
 # return tmp
 
 
-# main函数入口
-if __name__ == '__main__':
+def runGuess():
     # 使用方法传递。
     tmp_datetime = common.run_with_args(stat_all_batch)
     # 二次筛选数据。直接计算买卖股票数据。
-    tmp_datetime = common.run_with_args(stat_all_lite_buy)
-    tmp_datetime = common.run_with_args(stat_all_lite_sell)
+    # tmp_datetime = common.run_with_args(stat_all_lite_buy)
+    # tmp_datetime = common.run_with_args(stat_all_lite_sell)
 

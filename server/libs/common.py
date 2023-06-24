@@ -144,8 +144,8 @@ def run_with_args(run_fun):
     # 要支持数据重跑机制，将日期传入。循环次数
     if len(sys.argv) == 6:
         # python xxx.py 2017-07-01 10
-        tmp_year, tmp_month, tmp_day = sys.argv[1].split("-")
-        loop = int(sys.argv[2])
+        tmp_year, tmp_month, tmp_day = sys.argv[4].split("-")
+        loop = int(sys.argv[5])
         tmp_datetime = datetime.datetime(int(tmp_year), int(tmp_month), int(tmp_day))
         for i in range(0, loop):
             # 循环插入多次数据，重复跑历史数据使用。
@@ -158,7 +158,7 @@ def run_with_args(run_fun):
                 traceback.print_exc()
     elif len(sys.argv) == 5:
         # python xxx.py 2017-07-01
-        tmp_year, tmp_month, tmp_day = sys.argv[1].split("-")
+        tmp_year, tmp_month, tmp_day = sys.argv[4].split("-")
         tmp_datetime = datetime.datetime(int(tmp_year), int(tmp_month), int(tmp_day))
         try:
             run_fun(tmp_datetime)

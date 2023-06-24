@@ -108,6 +108,12 @@ def stat_all(tmp_datetime):
         print("error :", e)
 
 
+def statistic(tmp_datetime):
+    datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
+    datetime_int = (tmp_datetime).strftime("%Y%m%d")
+    print("datetime_str:", datetime_str)
+    print("datetime_int:", datetime_int)
+
     # 每日统计
     # 接口: stock_dzjy_mrtj
     #
@@ -149,8 +155,6 @@ def stat_all(tmp_datetime):
         del_sql = " DELETE FROM `stock_dzjy_mrtj` where `date` = '%s' " % datetime_int
         common.insert(del_sql)
 
-        print(stock_dzjy_mrtj)
-
         common.insert_db(stock_dzjy_mrtj, "stock_dzjy_mrtj", True, "`date`,`code`")
 
     except Exception as e:
@@ -158,4 +162,5 @@ def stat_all(tmp_datetime):
 
 
 def stat_all_index():
+    # common.run_with_args(statistic)
     common.run_with_args(stat_all)
