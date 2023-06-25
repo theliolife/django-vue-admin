@@ -54,6 +54,8 @@ def stat_all(tmp_datetime):
     # 股票列表
     try:
         data = ak.stock_zh_a_spot_em()
+        print(data)
+        exit(1)
         # print(data.index)
         # 解决ESP 小数问题。
         # data["esp"] = data["esp"].round(2)  # 数据保留2位小数

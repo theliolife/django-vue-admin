@@ -30,18 +30,22 @@ MYSQL_CONN_URL = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL
 # print("MYSQL_CONN_URL :", MYSQL_CONN_URL)
 
 __version__ = "2.0.0"
+
+
 # 每次发布时候更新。
 
 def engine():
     engine = create_engine(MYSQL_CONN_URL)
-        #encoding='utf8', convert_unicode=True)
+    # encoding='utf8', convert_unicode=True)
     return engine
+
 
 def engine_to_db(to_db):
     MYSQL_CONN_URL_NEW = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + ":" + MYSQL_PORT + "/" + to_db + "?charset=utf8mb4"
     engine = create_engine(MYSQL_CONN_URL_NEW)
-        #encoding='utf8', convert_unicode=True)
+    # encoding='utf8', convert_unicode=True)
     return engine
+
 
 # 通过数据库链接 engine。
 def conn():
@@ -88,8 +92,6 @@ def insert_other_db(to_db, data, table_name, write_index, primary_keys):
                 print("################## ADD PRIMARY KEY ERROR :", e)
 
 
-
-
 # 插入数据。
 def insert(sql, params=()):
     with conn() as dba:
@@ -132,7 +134,7 @@ def select_count(sql, params=()):
 def run_with_args(run_fun):
     tmp_datetime_show = datetime.datetime.now()  # 修改成默认是当日执行 + datetime.timedelta()
     tmp_hour_int = int(tmp_datetime_show.strftime("%H"))
-    if tmp_hour_int < 12 :
+    if tmp_hour_int < 12:
         # 判断如果是每天 中午 12 点之前运行，跑昨天的数据。
         tmp_datetime_show = (tmp_datetime_show + datetime.timedelta(days=-1))
     tmp_datetime_str = tmp_datetime_show.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -197,12 +199,11 @@ def get_hist_data_cache(code, date_start, date_end):
         return pd.read_pickle(cache_file, compression="gzip")
     else:
         print("######### get data, write cache #########", code, date_start, date_end)
-        stock = ak.stock_zh_a_hist(symbol= code, start_date=date_start, end_date=date_end, adjust="")
+        stock = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=date_start, end_date=date_end, adjust="")
         stock.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount', 'amplitude', 'quote_change',
                          'ups_downs', 'turnover']
         if stock is None:
             return None
         stock = stock.sort_index(0)  # 将数据按照日期排序下。
-        print(stock)
         stock.to_pickle(cache_file, compression="gzip")
         return stock

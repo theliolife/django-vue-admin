@@ -23,8 +23,8 @@ def stat_all_lite_buy(tmp_datetime):
     # 当六日指标上升到达80时，表示股市已有超买现象
     # 当CCI＞﹢100 时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
     sql_1 = """
-            SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
-                 `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`,
+            SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
+                 `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
             FROM guess_indicators_daily WHERE `date` = %s 
                         and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  
@@ -58,8 +58,8 @@ def stat_all_lite_sell(tmp_datetime):
     # 当六日强弱指标下降至20时，表示股市有超卖现象
     # 当CCI＜﹣100时，表明股价已经进入另一个非常态区间——超卖区间，投资者可以逢低吸纳股票。
     sql_1 = """
-            SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
-                 `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`,
+            SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
+                 `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
                         FROM guess_indicators_daily WHERE `date` = %s 
                         and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  
@@ -109,25 +109,23 @@ def stat_all_batch(tmp_datetime):
         # 查询今日满足股票数据。剔除数据：创业板股票数据，中小板股票数据，所有st股票
         # #`code` not like '002%' and `code` not like '300%'  and `name` not like '%st%'
         sql_1 = """ 
-                    SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
-                            `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`
+                    SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
+                            `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`
                     FROM stock_zh_a_spot_em WHERE `date` = %s and `open` > 0  limit %s , %s
                     """
         # data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%', i, batch_size])
         data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, i, batch_size])
         data = data.drop_duplicates(subset="code", keep="last")
-        print("########data[latest_price]########:", len(data))
-        if len(data) != 0:
+        print("########data[last_price]########:", len(data))
+        if len(data) == 0:
             continue
 
-        print(111)
-        exit(1)
         stat_index_all(data, i)
 
 
 # 分批执行。
 def stat_index_all(data, idx):
-    # print(data["latest_price"])
+    # print(data["last_price"])
     # 1), n天涨跌百分百计算
     # open price change (in percent) between today and the day before yesterday ‘r’ stands for rate.
     # stock[‘close_-2_r’]
@@ -216,7 +214,9 @@ def stat_index_all(data, idx):
     # code     cr cr-ma1 cr-ma2 cr-ma3      date
 
     data_new = concat_guess_data(stock_column, data)
-
+    print(123)
+    print(data_new)
+    exit(1)
     data_new = data_new.round(2)  # 数据保留2位小数
 
     # print(data_new.head())
@@ -239,13 +239,15 @@ def concat_guess_data(stock_column, data):
         elif col == 'code':
             tmp_dic[col] = data["code"]
         else:
-            tmp_dic[col] = data["latest_price"]
+            tmp_dic[col] = data["last_price"]
     # print("##########tmp_dic: ", tmp_dic)
     print("########################## BEGIN ##########################")
     stock_guess = pd.DataFrame(tmp_dic, index=data.index.values)
     print(stock_guess.columns.values)
     # print(stock_guess.head())
-    stock_guess = stock_guess.apply(apply_guess, stock_column=stock_column, axis=1)  # , axis=1)
+    stock_guess = stock_guess.apply(apply_guess, stock_column=stock_column, axis=1)
+    print(111)
+    exit(1)
     print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
@@ -262,8 +264,8 @@ def apply_guess(tmp, stock_column):
     date = tmp["date"]
     code = tmp["code"]
     date_end = datetime.datetime.strptime(date, "%Y%m%d")
-    date_start = (date_end + datetime.timedelta(days=-100)).strftime("%Y-%m-%d")
-    date_end = date_end.strftime("%Y-%m-%d")
+    date_start = (date_end + datetime.timedelta(days=-100)).strftime("%Y%m%d")
+    date_end = date_end.strftime("%Y%m%d")
     # print(code, date_start, date_end)
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
     # 使用缓存方法。加快计算速度。
@@ -319,21 +321,10 @@ def apply_guess(tmp, stock_column):
     return pd.Series(stock_data_list, index=stock_name_list)
 
 
-# print(stock["mov_vol"].tail())
-# print(stock["return"].tail())
-# print("stock[10d].tail(1)", stock["10d"].tail(1).values[0])
-# 10d    20d  5-10d  5-20d     5d    60d    code      date  mov_vol  return
-# tmp = list([stock["10d"].tail(1).values[0], stock["20d"].tail(1).values[0], stock["5-10d"].tail(1).values[0],
-#             stock["5-20d"].tail(1).values[0], stock["5d"].tail(1).values[0], stock["60d"].tail(1).values[0],
-#             code, date, stock["mov_vol"].tail(1).values[0], stock["return"].tail(1).values[0]])
-# # print(tmp)
-# return tmp
-
-
 def runGuess():
     # 使用方法传递。
     tmp_datetime = common.run_with_args(stat_all_batch)
     # 二次筛选数据。直接计算买卖股票数据。
-    # tmp_datetime = common.run_with_args(stat_all_lite_buy)
-    # tmp_datetime = common.run_with_args(stat_all_lite_sell)
+    tmp_datetime = common.run_with_args(stat_all_lite_buy)
+    tmp_datetime = common.run_with_args(stat_all_lite_sell)
 
