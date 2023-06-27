@@ -1,4 +1,4 @@
-# encoding:utf-8
+#coding=utf-8
 
 import random
 import time
@@ -47,21 +47,22 @@ class NewsSpider(scrapy.Spider):
     def parse(self, response):
         for result in response.xpath('//div[@class="content__list--item"]'):
             item = {}
-            item['house_code'] = result.xpath('@data-house_code').get()
+            item['house_code'] = result.xpath('@data-house_code').extract_first()
 
             item['price'] = result.xpath(
                 './/div[@class="content__list--item--main"]/span[@class="content__list--item-price"]/em/text()').extract_first()
 
-            item['title'] = result.xpath('.//p[@class="content__list--item--title"]/a/text()')[0].extract()
+            item['title'] = result.xpath('.//p[@class="content__list--item--title"]/a/text()').extract_first()
             item['title'] = self.get_chinese_str(item['title'])
-            item['url'] = 'https://bj.zu.ke.com' + result.xpath('.//a[@class="content__list--item--aside"]/@href').get()
-            item['img'] = result.xpath('.//a[@class="content__list--item--aside"]/img/@src').get()
+            item['url'] = 'https://bj.zu.ke.com' + result.xpath('.//a[@class="content__list--item--aside"]/@href').extract_first()
+            item['img'] = result.xpath('.//a[@class="content__list--item--aside"]/img/@src').extract_first()
 
-            if type(item['url']) == str:
+            if item['url']:
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
                 }
 
+                print(item['url'])
                 # 请求详情页
                 yield scrapy.Request(
                     url=item['url'],
@@ -73,23 +74,24 @@ class NewsSpider(scrapy.Spider):
             yield item
 
         # 计算下一页的 URL
-        # self.page_num += 1
-        # next_url = self.base_url.format(self.page_num)
-        #
-        # print("===================")
-        # print(next_url)
-        # # 如果下一页的 URL 不是最后一页，则继续请求下一页
-        # if next_url:
-        #     headers = {
-        #         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        #     }
-        #     sec = random.uniform(1, 3)
-        #     time.sleep(sec)
-        #     yield scrapy.Request(url=next_url, headers=headers, callback=self.parse)
+        self.page_num += 1
+        next_url = self.base_url.format(self.page_num)
+
+        print("===================")
+        print(next_url)
+        # 如果下一页的 URL 不是最后一页，则继续请求下一页
+        if next_url:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+            }
+            sec = random.uniform(1, 3)
+            time.sleep(sec)
+            yield scrapy.Request(url=next_url, headers=headers, callback=self.parse)
 
     # 解析详情页
     def parse_detail(self, response):
         item = response.meta["item"]
+
         # 维护时间
         item["operate_time"] = response.xpath("//div[@class='content__subtitle']/text()").extract_first()
         item["operate_time"] = self.get_number_str(item['operate_time'])

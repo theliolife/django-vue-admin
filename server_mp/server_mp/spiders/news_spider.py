@@ -1,4 +1,4 @@
-# encoding:utf-8
+#coding=utf-8
 
 import random
 import time
@@ -32,7 +32,7 @@ class NewsSpider(scrapy.Spider):
 
     def parse(self, response):
         for result in response.xpath('//div[@class="news_row clearfix"]'):
-            title = result.xpath('string(.//h3)').get().strip()
+            title = result.xpath('string(.//h3)').extract_first().strip()
             print("---------------------")
             print(title)
             yield {"title": title}
