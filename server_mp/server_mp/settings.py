@@ -1,3 +1,5 @@
+# encoding:utf-8
+
 # Scrapy settings for server_mp project
 #
 # For simplicity, this file contains only settings considered important or
@@ -8,9 +10,9 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from os.path import join
 import os
+from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
