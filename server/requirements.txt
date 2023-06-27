@@ -10,3 +10,4 @@ djangorestframework-simplejwt==5.1.0
 drf-yasg==1.21.3
 psutil==5.9.0
 django_extensions==3.2.3
+scrapyd-client==1.2.3

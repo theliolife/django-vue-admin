@@ -1,1 +1,7 @@
 __pycache__/
+logs/
+eggs/
+build/
+project.egg-info/
+dbs/
+.env

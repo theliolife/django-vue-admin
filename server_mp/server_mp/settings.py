@@ -6,6 +6,18 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
+from os.path import join
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 拼接路径为当前绝对路径下的.env文件
+dotenv_path = join(BASE_DIR, '.env')
+# load_dotenv作用解析.env文件的配置项写入环境变量
+load_dotenv(dotenv_path)
 
 BOT_NAME = "server_mp"
 
@@ -62,9 +74,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "server_mp.pipelines.ServerMpPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "server_mp.pipelines.MySQLPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -91,3 +103,9 @@ ROBOTSTXT_OBEY = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': 500,
+}
+USER_AGENT_LIST = './user_agents.txt'
