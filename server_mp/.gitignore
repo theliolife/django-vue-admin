@@ -5,3 +5,4 @@ build/
 project.egg-info/
 dbs/
 .env
+*.pyc

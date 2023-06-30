@@ -3,6 +3,7 @@
 #### 安装
 ```angular2html
 pip install Scrapy
+pip3 install --upgrade scrapy --trusted-host pypi.douban.com
 scrapy startproject server_mp
 scrapy genspider example example.com
 
