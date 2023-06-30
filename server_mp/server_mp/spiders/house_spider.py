@@ -53,7 +53,7 @@ class NewsSpider(scrapy.Spider):
                 './/div[@class="content__list--item--main"]/span[@class="content__list--item-price"]/em/text()').extract_first()
 
             item['title'] = result.xpath('.//p[@class="content__list--item--title"]/a/text()').extract_first()
-            item['title'] = self.get_chinese_str(item['title'])
+            # item['title'] = self.get_chinese_str(item['title'])
             item['url'] = 'https://bj.zu.ke.com' + result.xpath('.//a[@class="content__list--item--aside"]/@href').extract_first()
             item['img'] = result.xpath('.//a[@class="content__list--item--aside"]/img/@src').extract_first()
 
