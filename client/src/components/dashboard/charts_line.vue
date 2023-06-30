@@ -9,8 +9,7 @@ export default {
   methods: {
     initChart(name, xData, yData) {
       const getchart = echarts.init(document.getElementById('echart-line'))
-      var option = {
-
+      const option = {
         tooltip: {
           trigger: 'axis'
         },
@@ -25,7 +24,6 @@ export default {
           bottom: '11%',
           containLabel: true
         },
-
         xAxis: {
           type: 'category',
           boundaryGap: false,

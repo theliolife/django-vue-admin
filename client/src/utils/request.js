@@ -43,17 +43,17 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if(res.code>=200 && res.code<400){
+    if (res.code >= 200 && res.code < 400) {
       return res
     }
     if (res.code === 401) {
-      if(res.msg.indexOf('No active account')!=-1){
+      if (res.msg.indexOf('No active account') !== -1) {
         Message({
           message: '用户名或密码错误',
           type: 'error',
           duration: 3 * 1000
         })
-      }else{
+      } else {
         MessageBox.confirm('认证失败,请重新登陆.', '确认退出', {
           confirmButtonText: '重新登陆',
           cancelButtonText: '取消',
@@ -64,7 +64,6 @@ service.interceptors.response.use(
           })
         })
       }
-      
     } else if (res.code >= 400) {
       Message({
         message: res.msg || '请求出错',
@@ -77,7 +76,7 @@ service.interceptors.response.use(
   error => {
     // console.log(error,response) // for debug
     Message({
-      message: "服务器错误",
+      message: '服务器错误',
       type: 'error',
       duration: 5 * 1000
     })

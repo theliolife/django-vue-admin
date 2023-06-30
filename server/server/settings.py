@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'apps.wf',
     'django_extensions',
     'stock.apps.StockConfig',
+    'house.apps.HouseConfig',
 ]
 
 MIDDLEWARE = [

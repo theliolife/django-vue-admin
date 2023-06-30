@@ -11,3 +11,6 @@ drf-yasg==1.21.3
 psutil==5.9.0
 django_extensions==3.2.3
 scrapyd-client==1.2.3
+docopt==0.6.2
+pipreqs==0.4.13
+yarg==0.1.9

@@ -28,14 +28,14 @@ export function deleteWorkflow(id, data) {
     data
   })
 }
-//流转状态列表
+// 流转状态列表
 export function getWfStateList(id) {
   return request({
     url: `/wf/workflow/${id}/states`,
     method: 'get'
   })
 }
-//工单流转step
+// 工单流转step
 export function getWfFlowSteps(id) {
   return request({
     url: `/wf/ticket/${id}/flowsteps/`,
@@ -43,7 +43,7 @@ export function getWfFlowSteps(id) {
   })
 }
 
-//流转状态创建
+// 流转状态创建
 export function createWfState(data) {
   return request({
     url: '/wf/state/',
@@ -51,8 +51,8 @@ export function createWfState(data) {
     data
   })
 }
-//处理工单
-export function ticketHandle(id,data) {
+// 处理工单
+export function ticketHandle(id, data) {
   return request({
     url: `/wf/ticket/${id}/handle/`,
     method: 'post',
@@ -60,7 +60,7 @@ export function ticketHandle(id,data) {
   })
 }
 
-//流转状态更新
+// 流转状态更新
 export function updateWfState(id, data) {
   return request({
     url: `/wf/state/${id}/`,
@@ -68,7 +68,7 @@ export function updateWfState(id, data) {
     data
   })
 }
-//流转状态删除
+// 流转状态删除
 export function deleteWfState(id, data) {
   return request({
     url: `/wf/state/${id}/`,
@@ -76,14 +76,14 @@ export function deleteWfState(id, data) {
     data
   })
 }
-//自定义字段列表
+// 自定义字段列表
 export function getWfCustomfieldList(id) {
   return request({
     url: `/wf/workflow/${id}/customfields`,
     method: 'get'
   })
 }
-//自定义字段创建
+// 自定义字段创建
 export function createWfCustomfield(data) {
   return request({
     url: '/wf/customfield/',
@@ -91,7 +91,7 @@ export function createWfCustomfield(data) {
     data
   })
 }
-//自定义字段更新
+// 自定义字段更新
 export function updateWfCustomfield(id, data) {
   return request({
     url: `/wf/customfield/${id}/`,
@@ -99,7 +99,7 @@ export function updateWfCustomfield(id, data) {
     data
   })
 }
-//自定义字段删除
+// 自定义字段删除
 export function deleteWfCustomfield(id, data) {
   return request({
     url: `/wf/customfield/${id}/`,
@@ -107,14 +107,14 @@ export function deleteWfCustomfield(id, data) {
     data
   })
 }
-//流转列表
+// 流转列表
 export function getWfTransitionList(id) {
   return request({
     url: `/wf/workflow/${id}/transitions/`,
     method: 'get'
   })
 }
-//流转创建
+// 流转创建
 export function createWfTransition(data) {
   return request({
     url: '/wf/transition/',
@@ -122,7 +122,7 @@ export function createWfTransition(data) {
     data
   })
 }
-//流转更新
+// 流转更新
 export function updateWfTransition(id, data) {
   return request({
     url: `/wf/transition/${id}/`,
@@ -130,7 +130,7 @@ export function updateWfTransition(id, data) {
     data
   })
 }
-//流转删除
+// 流转删除
 export function deleteWfTransition(id, data) {
   return request({
     url: `/wf/transition/${id}/`,
@@ -138,15 +138,15 @@ export function deleteWfTransition(id, data) {
     data
   })
 }
-//工单列表
+// 工单列表
 export function getTickets(query) {
   return request({
     url: `/wf/ticket/`,
     method: 'get',
-    params:query
+    params: query
   })
 }
-//新建工单
+// 新建工单
 export function createTicket(data) {
   return request({
     url: '/wf/ticket/',
@@ -154,56 +154,55 @@ export function createTicket(data) {
     data
   })
 }
-  //详情
+// 详情
 export function ticketread(id) {
   return request({
     url: `/wf/ticket/${id}/`,
-    method: 'get',
-    
-  })
+    method: 'get'
 
+  })
 }
-//接单
-export function ticketAccpet(id,data) {
+// 接单
+export function ticketAccpet(id, data) {
   return request({
     url: `/wf/ticket/${id}/accpet/`,
     method: 'post',
     data
   })
 }
-//撤回工单，允许创建人在指定状态撤回工单至初始状态
-export function ticketRetreat(id,data) {
+// 撤回工单，允许创建人在指定状态撤回工单至初始状态
+export function ticketRetreat(id, data) {
   return request({
     url: `/wf/ticket/${id}/retreat/`,
     method: 'post',
     data
   })
 }
-//关闭工单，仅允许创建人在初始状态关闭工单
-export function ticketAddNode(id,data) {
+// 关闭工单，仅允许创建人在初始状态关闭工单
+export function ticketAddNode(id, data) {
   return request({
     url: `/wf/ticket/${id}/add_node/`,
     method: 'post',
     data
   })
 }
-//加签
-export function ticketClose(id,data) {
+// 加签
+export function ticketClose(id, data) {
   return request({
     url: `/wf/ticket/${id}/close/`,
     method: 'post',
     data
   })
 }
-//加签
-export function ticketAddNodeEnd(id,data) {
+// 加签
+export function ticketAddNodeEnd(id, data) {
   return request({
     url: `/wf/ticket/${id}/add_node_end/`,
     method: 'post',
     data
   })
 }
-//工单删除
+// 工单删除
 export function ticketDestory(data) {
   return request({
     url: `/wf/ticket/destory/`,
@@ -211,7 +210,7 @@ export function ticketDestory(data) {
     data
   })
 }
-//工单详情
+// 工单详情
 export function getTicketDetail(id) {
   return request({
     url: `/wf/ticket/${id}/`,
@@ -219,7 +218,7 @@ export function getTicketDetail(id) {
   })
 }
 
-//工单流转
+// 工单流转
 export function getTicketTransitions(id) {
   return request({
     url: `/wf/ticket/${id}/transitions/`,
@@ -227,29 +226,29 @@ export function getTicketTransitions(id) {
   })
 }
 
-//工单流转记录
+// 工单流转记录
 export function getTicketFlowlog(id) {
   return request({
     url: `/wf/ticket/${id}/flowlogs/`,
     method: 'get'
   })
 }
-//工单代办数量
+// 工单代办数量
 export function getCount(data) {
   return request({
     url: `/wf/ticket/duty_agg/`,
     method: 'get',
-    params:data
+    params: data
   })
 }
-//工单代办数量
+// 工单代办数量
 export function getCodes() {
   return request({
     url: `/wf/participant_from_code`,
     method: 'get'
   })
 }
-//工单详情
+// 工单详情
 export function getWorkflowInit(id) {
   return request({
     url: `/wf/workflow/${id}/init/`,
