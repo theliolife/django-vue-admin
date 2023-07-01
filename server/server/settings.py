@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'stock.apps.StockConfig',
     'house.apps.HouseConfig',
+    'server_sp.apps.ServerSpConfig',
 ]
 
 MIDDLEWARE = [
