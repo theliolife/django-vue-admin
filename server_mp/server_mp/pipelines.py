@@ -9,7 +9,7 @@
 # useful for handling different item types with a single interface
 import os
 import pymysql
-from scrapy.pipelines.images import ImagesPipeline
+# from scrapy.pipelines.images import ImagesPipeline
 import scrapy
 
 class ServerMpPipeline:
@@ -17,24 +17,24 @@ class ServerMpPipeline:
         return item
 
 
-class Pipline(ImagesPipeline):
-    # 将图片的src进行请求下载,
-    def get_media_requests(self, item, info):
-        # print("item的src是",item["src"])
-        # 这里不需要回调函数,直接进行请求,meta可以把前面的参数给传下去,比如传自定义的文件名
-        yield scrapy.Request(item["src"], meta=item)
-
-    # 执行下一个即将执行的管道类,所以如果没有其他管道存储,也可以不写这个方法
-    def item_completed(self, results, item, info):
-        return item
-
-    # 设定存储文件名,存储路径的父路径在setting里设置 IMAGES_STORE 字段
-    def file_path(self, request, response=None, info=None, *, item=None):
-        # return item["fname"]   直接把item里的文件名返回
-
-        # 这里是把url后面的xxx.jpg截取作为文件名返回保存
-        f_name = request.url.split("/")[-1]
-        return f_name
+# class Pipline(ImagesPipeline):
+#     # 将图片的src进行请求下载,
+#     def get_media_requests(self, item, info):
+#         # print("item的src是",item["src"])
+#         # 这里不需要回调函数,直接进行请求,meta可以把前面的参数给传下去,比如传自定义的文件名
+#         yield scrapy.Request(item["src"], meta=item)
+#
+#     # 执行下一个即将执行的管道类,所以如果没有其他管道存储,也可以不写这个方法
+#     def item_completed(self, results, item, info):
+#         return item
+#
+#     # 设定存储文件名,存储路径的父路径在setting里设置 IMAGES_STORE 字段
+#     def file_path(self, request, response=None, info=None, *, item=None):
+#         # return item["fname"]   直接把item里的文件名返回
+#
+#         # 这里是把url后面的xxx.jpg截取作为文件名返回保存
+#         f_name = request.url.split("/")[-1]
+#         return f_name
 
 
 class MySQLPipeline(object):

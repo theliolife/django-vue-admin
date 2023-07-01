@@ -15,19 +15,8 @@ def daily():
     logger.info('请求成功！ scrapy_爬虫每日的任务')
     logger.info(sys.argv)
 
-    res = scrapy_sp.get_status()
-    print("scrapy_爬虫每日de任务")
-    print(res)
+    scrapy_sp.start_spider('server_mp', 'house')
 
-@shared_task
-def daily_guess():
-    # logger = logging.getLogger('log')
-    # logger.info('请求成功！ response_code:{}；response_headers:{}；response_body:{}')
-    # logger.error('请求出错-{}')
-    # logger.error(sys.argv)
-
-    # 获取股票信息
-    print("爬虫每日任务2")
 
 @shared_task
 def guess():

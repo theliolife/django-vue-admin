@@ -19,10 +19,9 @@ def daily():
 
 @shared_task
 def daily_guess():
-    # logger = logging.getLogger('log')
-    # logger.info('请求成功！ response_code:{}；response_headers:{}；response_body:{}')
-    # logger.error('请求出错-{}')
-    # logger.error(sys.argv)
+    logger = logging.getLogger('log')
+    logger.info('================= 获取股票信息 ===================')
+    logger.info(sys.argv)
 
     # 获取股票信息
     runGuess()

@@ -14,14 +14,14 @@
               </el-col>
               <el-col :span="4">
                 <div>
-                  <el-statistic title="男女比">
+                  <el-statistic title="茅台预约">
                     <template slot="formatter"> 456/2 </template>
                   </el-statistic>
                 </div>
               </el-col>
               <el-col :span="4">
                 <div>
-                  <el-statistic group-separator="," :precision="2" decimal-separator="." :value="value1" :title="title">
+                  <el-statistic group-separator="," :precision="2" decimal-separator="." :value="value1" title="出租房数量">
                     <template slot="prefix">
                       <i class="el-icon-s-flag" style="color: red"></i>
                     </template>
@@ -33,7 +33,7 @@
               </el-col>
               <el-col :span="4">
                 <div>
-                  <el-statistic :value="like ? 521 : 520" title="Feedback">
+                  <el-statistic :value="like ? 521 : 520" title="上涨/下跌数">
                     <template slot="suffix">
               <span @click="like = !like" class="like">
                 <i class="el-icon-star-on" style="color:red" v-show="!!like"></i>
@@ -45,7 +45,7 @@
               </el-col>
               <el-col :span="4">
                 <div>
-                  <el-statistic group-separator="," :precision="2" decimal-separator="." :value="value1" :title="title">
+                  <el-statistic group-separator="," :precision="2" decimal-separator="." :value="value1" title="北向流向">
                     <template slot="prefix">
                       <i class="el-icon-s-flag" style="color: red"></i>
                     </template>

@@ -7,3 +7,12 @@ export function houseDashboard(data) {
     data
   })
 }
+
+
+export function houseList(data) {
+  return request({
+    url: '/house/list',
+    method: 'get',
+    data
+  })
+}

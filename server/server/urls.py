@@ -60,6 +60,7 @@ urlpatterns = [
 
     path('api/stock/', include('stock.urls')),
     path('api/house/', include('house.urls')),
+    path('api/maotai/', include('maotai.urls')),
 
     # 前端页面入口
     path('',TemplateView.as_view(template_name="index.html"))

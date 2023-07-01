@@ -78,101 +78,143 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user perms
  */
 export const asyncRoutes = [
-  {
-    path: '/workflow',
-    component: Layout,
-    redirect: '/workflow/index',
-    name: 'workflow',
-    meta: { title: '工作流', icon: 'example', perms: ['workflow_manage'] },
-    children: [
-      {
-        path: 'index',
-        name: 'index',
-        component: () => import('@/views/workflow/index'),
-        meta: { title: '工作流', icon: 'example', perms: ['workflow_index'] }
-      },
-      {
-        path: 'ticket',
-        name: 'ticket',
-        component: () => import('@/views/workflow/ticket'),
-        meta: { title: '工单管理', icon: 'example', noCache: true, perms: ['workflow_ticket'] }
-      },
-      {
-        path: 'workFlowTickets',
-        name: 'workFlowTickets',
-        component: () => import('@/views/workflow/workFlowTickets'),
-        meta: { title: '工单', icon: 'example', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'configuration',
-        name: 'configuration',
-        component: () => import('@/views/workflow/configuration'),
-        meta: { title: '工作流配置', icon: 'example' },
-        hidden: true
-      },
-      {
-        path: 'ticketHandle',
-        name: 'ticketHandle',
-        component: () => import('@/views/workflow/ticketHandle'),
-        meta: { title: '工单处理', icon: 'example', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'ticketDetail',
-        name: 'ticketDetail',
-        component: () => import('@/views/workflow/ticketDetail'),
-        meta: { title: '工单详情', icon: 'example', noCache: true },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/workflow',
+  //   component: Layout,
+  //   redirect: '/workflow/index',
+  //   name: 'workflow',
+  //   meta: { title: '工作流', icon: 'example', perms: ['workflow_manage'] },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'index',
+  //       component: () => import('@/views/workflow/index'),
+  //       meta: { title: '工作流', icon: 'example', perms: ['workflow_index'] }
+  //     },
+  //     {
+  //       path: 'ticket',
+  //       name: 'ticket',
+  //       component: () => import('@/views/workflow/ticket'),
+  //       meta: { title: '工单管理', icon: 'example', noCache: true, perms: ['workflow_ticket'] }
+  //     },
+  //     {
+  //       path: 'workFlowTickets',
+  //       name: 'workFlowTickets',
+  //       component: () => import('@/views/workflow/workFlowTickets'),
+  //       meta: { title: '工单', icon: 'example', noCache: true },
+  //       hidden: true
+  //     },
+  //     {
+  //       path: 'configuration',
+  //       name: 'configuration',
+  //       component: () => import('@/views/workflow/configuration'),
+  //       meta: { title: '工作流配置', icon: 'example' },
+  //       hidden: true
+  //     },
+  //     {
+  //       path: 'ticketHandle',
+  //       name: 'ticketHandle',
+  //       component: () => import('@/views/workflow/ticketHandle'),
+  //       meta: { title: '工单处理', icon: 'example', noCache: true },
+  //       hidden: true
+  //     },
+  //     {
+  //       path: 'ticketDetail',
+  //       name: 'ticketDetail',
+  //       component: () => import('@/views/workflow/ticketDetail'),
+  //       meta: { title: '工单详情', icon: 'example', noCache: true },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   {
     path: '/stock',
     component: Layout,
     redirect: '/workflow/index',
     name: 'workflow',
-    meta: { title: 'stock', icon: 'example', perms: ['workflow_manage'] },
+    meta: { title: '股迅', icon: 'example', perms: ['workflow_manage'] },
     children: [
       {
         path: 'index',
         name: 'index',
         component: () => import('@/views/workflow/index'),
-        meta: { title: 'stock', icon: 'example', perms: ['workflow_index'] }
+        meta: { title: '看板', icon: 'example', perms: ['workflow_index'] }
       },
       {
         path: 'ticket',
         name: 'ticket',
         component: () => import('@/views/workflow/ticket'),
-        meta: { title: 'stock-工单管理', icon: 'example', noCache: true, perms: ['workflow_ticket'] }
+        meta: { title: '股迅-工单管理', icon: 'example', noCache: true, perms: ['workflow_ticket'] }
       },
       {
         path: 'workFlowTickets',
         name: 'workFlowTickets',
         component: () => import('@/views/workflow/workFlowTickets'),
-        meta: { title: 'stock-工单', icon: 'example', noCache: true },
+        meta: { title: '股迅-工单', icon: 'example', noCache: true },
         hidden: true
       },
       {
         path: 'configuration',
         name: 'configuration',
         component: () => import('@/views/workflow/configuration'),
-        meta: { title: 'stock-工作流配置', icon: 'example' },
+        meta: { title: '股迅-工作流配置', icon: 'example' },
         hidden: true
       },
       {
         path: 'ticketHandle',
         name: 'ticketHandle',
         component: () => import('@/views/workflow/ticketHandle'),
-        meta: { title: 'stock-工单处理', icon: 'example', noCache: true },
+        meta: { title: '股迅-工单处理', icon: 'example', noCache: true },
         hidden: true
       },
       {
         path: 'ticketDetail',
         name: 'ticketDetail',
         component: () => import('@/views/workflow/ticketDetail'),
-        meta: { title: 'stock-工单详情', icon: 'example', noCache: true },
+        meta: { title: '股迅-工单详情', icon: 'example', noCache: true },
         hidden: true
+      }
+    ]
+  },
+  {
+    path: '/maotai',
+    component: Layout,
+    redirect: '/maotai/index',
+    name: 'maotai',
+    meta: { title: '茅台', icon: 'example', perms: ['maotai_manage'] },
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/maotai/index'),
+        meta: { title: 'i茅台', icon: 'example', perms: ['maotai_index'] }
+      },
+      {
+        path: 'price',
+        name: 'price',
+        component: () => import('@/views/maotai/list'),
+        meta: { title: '茅台价格', icon: 'example', noCache: true, perms: ['maotai_list'] }
+      }
+    ]
+  },
+  {
+    path: '/house',
+    component: Layout,
+    redirect: '/house/index',
+    name: 'house',
+    meta: { title: '房讯', icon: 'example', perms: ['house_manage'] },
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/house/index'),
+        meta: { title: '房讯看板', icon: 'example', perms: ['house_index'] }
+      },
+      {
+        path: 'ticket',
+        name: 'ticket',
+        component: () => import('@/views/house/list'),
+        meta: { title: '最新房源', icon: 'example', noCache: true, perms: ['house_list'] }
       }
     ]
   },

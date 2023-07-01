@@ -4,6 +4,7 @@ import random
 import time
 import re
 import scrapy
+# import js2xml
 from datetime import datetime
 
 # CREATE TABLE `sp_house` (
@@ -75,10 +76,10 @@ class NewsSpider(scrapy.Spider):
 
         # 计算下一页的 URL
         self.page_num += 1
+        if self.page_num > 2:
+            print('执行完毕')
+            exit(1)
         next_url = self.base_url.format(self.page_num)
-
-        print("===================")
-        print(next_url)
         # 如果下一页的 URL 不是最后一页，则继续请求下一页
         if next_url:
             headers = {
@@ -91,6 +92,18 @@ class NewsSpider(scrapy.Spider):
     # 解析详情页
     def parse_detail(self, response):
         item = response.meta["item"]
+        #
+        # # pattern = r'longitude: "(\w+)",'
+        # # lon = response.xpath('//script/text()').re(pattern)
+        # pattern = r'latitude: "(.+)"'
+        # latText = response.xpath('//script/text()').extract()[3]
+        # lat = re.findall(pattern, latText)
+        # print('-===========================')
+        # # print(lon)
+        # print(len(lat))
+        # print(lat)
+        # print('-===========================')
+        # exit(1)
 
         # 维护时间
         item["operate_time"] = response.xpath("//div[@class='content__subtitle']/text()").extract_first()

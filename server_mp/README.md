@@ -8,7 +8,7 @@ scrapy startproject server_mp
 scrapy genspider example example.com
 
 pip install scrapyd
-pip3  install scrapyd-client
+pip3 install scrapyd-client
 ```
 
 #### 运行

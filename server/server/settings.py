@@ -18,6 +18,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+CREDENTIALS_PATH = BASE_DIR + '/maotai/imaotai/credentials'
+
 # 拼接路径为当前绝对路径下的.env文件
 dotenv_path = join(BASE_DIR, '.env')
 # load_dotenv作用解析.env文件的配置项写入环境变量
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     'stock.apps.StockConfig',
     'house.apps.HouseConfig',
     'server_sp.apps.ServerSpConfig',
+    'maotai.apps.MaotaiConfig',
 ]
 
 MIDDLEWARE = [

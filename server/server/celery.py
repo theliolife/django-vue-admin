@@ -6,6 +6,7 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings_dev')
 
 app = Celery('server', include=[
+    'apps.system.jobs.maotai.tasks',
     'apps.system.jobs.scrapy.tasks',
     'apps.system.jobs.tasks',
 ])

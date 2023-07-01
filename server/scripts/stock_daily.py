@@ -11,5 +11,5 @@ def run(*args):
     logger.info('每天执行')
     logger.info(sys.argv)
 
-    stat_all_index()
-    # runGuess()
+    # stat_all_index()
+    runGuess()
