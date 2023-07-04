@@ -62,12 +62,15 @@ class MySQLPipeline(object):
                 item['img'],
                 item['operate_time'],
                 item['size'],
+                item['longitude'],
+                item['latitude'],
+                item['distance'],
+                item['gaode'],
                 item['ctime'],
             )
             # # 编写insert sql语句，这里是数据库中已经有表了
-            sql = 'INSERT INTO sp_house (`house_code`, `price`, `title`, `url`, `img`, `operate_time`, `size`, `ctime`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
+            sql = 'INSERT INTO sp_house (`house_code`, `price`, `title`, `url`, `img`, `operate_time`, `size`, `longitude`, `latitude`, `distance`, `gaode`, `ctime`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
             try:
-                print('-----------------------------')
                 # 执行sql语句
                 self.cursor.execute(sql, values)
                 # 提交sql语句

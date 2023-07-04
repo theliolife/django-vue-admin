@@ -1,12 +1,14 @@
-#coding=utf-8
+# coding=utf-8
 
 import random
 import time
 import re
+import os
+import json
+import requests
 import scrapy
-# import js2xml
 from datetime import datetime
-
+from geopy.distance import geodesic
 # CREATE TABLE `sp_house` (
 #   `id` int unsigned NOT NULL AUTO_INCREMENT,
 #   `house_code` varchar(100) DEFAULT NULL,
@@ -20,6 +22,19 @@ from datetime import datetime
 #   `utime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 #   PRIMARY KEY (`id`)
 # ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+# https://lbs.amap.com/api/webservice/guide/api/direction
+def walks(origin, destination):
+    key = os.environ.get('GAO_DE_KEY')  ##输入自己key
+    parameters = {'key': key, 'origin': origin, 'destination': destination}
+    ##参数的输入，可以按照自己的需求选择出行时间最短，出行距离最短，不走高速等方案，结合自己需求设置，参考手册
+    response = requests.get('https://restapi.amap.com/v3/direction/walking?parameters', params=parameters)
+    text = json.loads(response.text)
+    duration = text['route']['paths'][0]['duration']  ##出行时间
+    ## 可以自己打印text看一下，能提取很多参数，出行时间、出行费用、出行花费等看自己需求提取
+
+    return duration
 
 class NewsSpider(scrapy.Spider):
     name = 'house'
@@ -92,20 +107,28 @@ class NewsSpider(scrapy.Spider):
     # 解析详情页
     def parse_detail(self, response):
         item = response.meta["item"]
-        #
-        # # pattern = r'longitude: "(\w+)",'
-        # # lon = response.xpath('//script/text()').re(pattern)
-        # pattern = r'latitude: "(.+)"'
-        # latText = response.xpath('//script/text()').extract()[3]
-        # lat = re.findall(pattern, latText)
-        # print('-===========================')
-        # # print(lon)
-        # print(len(lat))
-        # print(lat)
-        # print('-===========================')
-        # exit(1)
+
+        latText = response.xpath('//script/text()').extract()[3]
+
+
+        pattern = "longitude: '(.*)',"
+        longitude = re.findall(pattern, latText)
+        if len(longitude) > 0:
+            longitude = longitude[0]
+
+        pattern = "latitude: '(.*)'"
+        latitude = re.findall(pattern, latText)
+        if len(latitude) > 0:
+            latitude = latitude[0]
 
         # 维护时间
+        item["longitude"] = longitude
+        item["latitude"] = latitude
+        item["distance"] = geodesic((float(latitude), float(longitude)), (28.7427, 115.86572000000001)).km
+
+        target_point = ','.join([longitude, latitude])
+        item["gaode"] = walks(target_point, '116.276554,39.904581')
+
         item["operate_time"] = response.xpath("//div[@class='content__subtitle']/text()").extract_first()
         item["operate_time"] = self.get_number_str(item['operate_time'])
         item["size"] = response.xpath("//div[@class='content__article__info']/ul/li[position()=2]/text()").extract_first()
