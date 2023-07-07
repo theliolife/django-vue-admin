@@ -40,8 +40,10 @@
               <a :href="scope.row.url" target="_blank" style="margin-left: 10px">{{ scope.row.title }}</a>
             </template>
           </el-table-column>
-          <el-table-column label="价格" prop="price"></el-table-column>
-          <el-table-column label="面积" prop="size"></el-table-column>
+          <el-table-column width="100" label="价格" prop="price"></el-table-column>
+          <el-table-column width="100" label="面积" prop="size"></el-table-column>
+          <el-table-column label="楼层" prop="floor"></el-table-column>
+          <el-table-column label="步行距离" prop="gaode"></el-table-column>
           <el-table-column label="最后维护日期" prop="operate_time" align="right">
             <template slot="header" slot-scope="scope">
               <el-input

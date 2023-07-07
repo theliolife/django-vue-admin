@@ -130,48 +130,48 @@ export const asyncRoutes = [
   {
     path: '/stock',
     component: Layout,
-    redirect: '/workflow/index',
-    name: 'workflow',
-    meta: { title: '股迅', icon: 'example', perms: ['workflow_manage'] },
+    redirect: '/stock/index',
+    name: 'stock',
+    meta: { title: '股讯', icon: 'example', perms: ['stock_manage'] },
     children: [
       {
         path: 'index',
         name: 'index',
         component: () => import('@/views/workflow/index'),
-        meta: { title: '看板', icon: 'example', perms: ['workflow_index'] }
+        meta: { title: '看板', icon: 'example', perms: ['stock_index'] }
       },
       {
-        path: 'ticket',
-        name: 'ticket',
+        path: 'manage',
+        name: 'manage',
         component: () => import('@/views/workflow/ticket'),
-        meta: { title: '股迅-工单管理', icon: 'example', noCache: true, perms: ['workflow_ticket'] }
+        meta: { title: '股讯-工单管理', icon: 'example', noCache: true, perms: ['stock_ticket'] }
       },
       {
         path: 'workFlowTickets',
         name: 'workFlowTickets',
         component: () => import('@/views/workflow/workFlowTickets'),
-        meta: { title: '股迅-工单', icon: 'example', noCache: true },
-        hidden: true
+        meta: { title: '股讯-工单', icon: 'example', noCache: true },
+        hidden: false
       },
       {
         path: 'configuration',
         name: 'configuration',
         component: () => import('@/views/workflow/configuration'),
-        meta: { title: '股迅-工作流配置', icon: 'example' },
+        meta: { title: '股讯-工作流配置', icon: 'example' },
         hidden: true
       },
       {
         path: 'ticketHandle',
         name: 'ticketHandle',
         component: () => import('@/views/workflow/ticketHandle'),
-        meta: { title: '股迅-工单处理', icon: 'example', noCache: true },
+        meta: { title: '股讯-工单处理', icon: 'example', noCache: true },
         hidden: true
       },
       {
         path: 'ticketDetail',
         name: 'ticketDetail',
         component: () => import('@/views/workflow/ticketDetail'),
-        meta: { title: '股迅-工单详情', icon: 'example', noCache: true },
+        meta: { title: '股讯-工单详情', icon: 'example', noCache: true },
         hidden: true
       }
     ]

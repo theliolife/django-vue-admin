@@ -91,7 +91,7 @@ class NewsSpider(scrapy.Spider):
 
         # 计算下一页的 URL
         self.page_num += 1
-        if self.page_num > 2:
+        if self.page_num > 6:
             print('执行完毕')
             exit(1)
         next_url = self.base_url.format(self.page_num)
@@ -133,6 +133,7 @@ class NewsSpider(scrapy.Spider):
         item["operate_time"] = self.get_number_str(item['operate_time'])
         item["size"] = response.xpath("//div[@class='content__article__info']/ul/li[position()=2]/text()").extract_first()
         item["size"] = self.get_number_str(item['size'])
+        item["floor"] = response.xpath("//li[@class='floor']/span[position()=2]/text()").extract_first()
         now = datetime.now()
         item["ctime"] = now.strftime("%Y-%m-%d %H:%M:%S")
         yield item  # 对返回的数据进行处理
