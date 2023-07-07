@@ -141,9 +141,9 @@
         <el-form-item label="所属部门" prop="dept">
           <treeselect v-model="user.dept" :multiple="false" :options="orgData" placeholder="所属部门"/>
         </el-form-item>
-<!--        <el-form-item label="phone" prop="phone">-->
-<!--          <el-input v-model="user.phone" placeholder="phone" />-->
-<!--        </el-form-item>-->
+        <el-form-item label="phone" prop="phone">
+          <el-input v-model="user.phone" placeholder="phone" />
+        </el-form-item>
         <el-form-item label="角色" prop="roles">
           <el-select v-model="user.roles" multiple placeholder="请选择" style="width:100%">
             <el-option

@@ -132,7 +132,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/stock/index',
     name: 'stock',
-    meta: { title: '股讯', icon: 'example', perms: ['stock_manage'] },
+    meta: { title: '股讯', icon: 'example', perms: ['stock'] },
     children: [
       {
         path: 'index',
@@ -144,7 +144,7 @@ export const asyncRoutes = [
         path: 'manage',
         name: 'manage',
         component: () => import('@/views/workflow/ticket'),
-        meta: { title: '股讯-工单管理', icon: 'example', noCache: true, perms: ['stock_ticket'] }
+        meta: { title: '预测', icon: 'example', noCache: true, perms: ['stock_ticket'] }
       },
       {
         path: 'workFlowTickets',
@@ -181,7 +181,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/maotai/index',
     name: 'maotai',
-    meta: { title: '茅台', icon: 'example', perms: ['maotai_manage'] },
+    meta: { title: '茅台', icon: 'example', perms: ['maotai'] },
     children: [
       {
         path: 'index',
@@ -193,7 +193,7 @@ export const asyncRoutes = [
         path: 'price',
         name: 'price',
         component: () => import('@/views/maotai/list'),
-        meta: { title: '茅台价格', icon: 'example', noCache: true, perms: ['maotai_list'] }
+        meta: { title: '茅台价格', icon: 'example', noCache: true, perms: ['maotai_price'] }
       }
     ]
   },
@@ -202,7 +202,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/house/index',
     name: 'house',
-    meta: { title: '房讯', icon: 'example', perms: ['house_manage'] },
+    meta: { title: '房讯', icon: 'example', perms: ['house'] },
     children: [
       {
         path: 'index',
