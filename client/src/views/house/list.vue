@@ -87,7 +87,7 @@
                   :plugin="plugin"
                   :events="events"
                   class="amap-demo"
-                  style="height: 600px;width: 100%">
+                  style="height: 800px;width: 100%">
                   <el-amap-marker v-for="(u,i) in markers" :position="u.position" :key="i"></el-amap-marker>
                   <el-amap-marker :position="this.position">
                   </el-amap-marker>

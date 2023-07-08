@@ -34,7 +34,7 @@ def walks(origin, destination):
     duration = text['route']['paths'][0]['duration']  ##出行时间
     ## 可以自己打印text看一下，能提取很多参数，出行时间、出行费用、出行花费等看自己需求提取
 
-    return text
+    return response.text
 
 class NewsSpider(scrapy.Spider):
     name = 'house'
