@@ -44,10 +44,10 @@
             <el-table-column width="100" label="价格" prop="price"></el-table-column>
             <el-table-column width="100" label="面积" prop="size"></el-table-column>
             <el-table-column label="楼层" prop="floor"></el-table-column>
-            <el-table-column label="步行距离" prop="gaode">
+            <el-table-column label="步行距离" prop="distance">
               <template slot-scope="scope">
-                <el-button @click="showMap(scope.row.longitude, scope.row.latitude)">
-                  {{scope.row.gaode}}
+                <el-button @click="showMap(scope.row.longitude, scope.row.latitude, scope.row.gaode, scope.row.title)">
+                  {{scope.row.distance}}
                 </el-button>
               </template>
             </el-table-column>
@@ -70,7 +70,7 @@
           点我打开
         </el-button>
         <el-drawer
-          title="房屋所在位置"
+          :title="`房屋所在位置: ` + map_name"
           size="70%"
           :visible.sync="drawer"
           :direction="direction"
@@ -94,6 +94,12 @@
                 </el-amap>
               </div>
             </el-col>
+          </el-row>
+
+          <el-row>
+            <el-card shadow="never" style="text-align: center">
+              {{this.map_path}}
+            </el-card>
           </el-row>
         </el-drawer>
       </el-col>
@@ -128,6 +134,8 @@ export default {
           alert('map clicked')
         }
       },
+      map_path: '',
+      map_name: '',
       markers: [],
       //使用其他组件
       plugin: [
@@ -180,12 +188,23 @@ export default {
     handleClose(done) {
       done()
     },
-    showMap(lat,lon){
+    showMap(lat,lon,gaode,title){
       this.drawer = true
+      let steps = JSON.parse(gaode)['route']['paths'][0]['steps']
+
+      let tmp_path = null
+      steps.map(function(item){
+        if (!tmp_path){
+          tmp_path = item['instruction']
+        }else{
+          tmp_path = tmp_path + '===>' + item['instruction']
+        }
+      })
+      this.map_path = tmp_path
+      this.map_name = title
 
       this.position = [lat,lon];
       this.asyncShowMap()
-      console.log(this.position)
       this.$forceUpdate()
     },
     async asyncShowMap() {
