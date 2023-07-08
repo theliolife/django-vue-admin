@@ -16,6 +16,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import tableHeight from '@/directive/el-table/index'
 import echarts from 'echarts'
+import VueAMap from "vue-amap";
 
 Vue.prototype.$echarts = echarts
 Vue.use(tableHeight)
@@ -38,6 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { size: 'medium' })
 Vue.config.productionTip = false
 
+Vue.use(VueAMap);
 new Vue({
   el: '#app',
   router,

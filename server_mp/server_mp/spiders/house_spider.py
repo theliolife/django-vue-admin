@@ -34,7 +34,7 @@ def walks(origin, destination):
     duration = text['route']['paths'][0]['duration']  ##出行时间
     ## 可以自己打印text看一下，能提取很多参数，出行时间、出行费用、出行花费等看自己需求提取
 
-    return duration
+    return text
 
 class NewsSpider(scrapy.Spider):
     name = 'house'
@@ -124,7 +124,7 @@ class NewsSpider(scrapy.Spider):
         # 维护时间
         item["longitude"] = longitude
         item["latitude"] = latitude
-        item["distance"] = geodesic((float(latitude), float(longitude)), (28.7427, 115.86572000000001)).km
+        item["distance"] = geodesic((float(latitude), float(longitude)), (39.91092, 116.41338)).km
 
         target_point = ','.join([longitude, latitude])
         item["gaode"] = walks(target_point, '116.276554,39.904581')
