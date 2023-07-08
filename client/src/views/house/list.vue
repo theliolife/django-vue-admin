@@ -66,9 +66,6 @@
 
     <el-row>
       <el-col>
-        <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-          点我打开
-        </el-button>
         <el-drawer
           :title="`房屋所在位置: ` + map_name"
           size="70%"
