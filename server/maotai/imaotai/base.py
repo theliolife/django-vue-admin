@@ -1,5 +1,7 @@
 import logging
 import sys
+import random
+import time
 
 from maotai.imaotai import config
 from maotai.imaotai import login
@@ -54,6 +56,10 @@ def run():
                 reservation_params = process.act_params(max_shop_id, item)
                 process.reservation(reservation_params, mobile)
                 process.getUserEnergyAward(mobile)
+
+                sec = random.uniform(3, 6)
+                time.sleep(sec)
+
         except BaseException as e:
             print(e)
             logging.error(e)

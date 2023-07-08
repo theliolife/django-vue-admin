@@ -151,7 +151,7 @@ export const asyncRoutes = [
         name: 'workFlowTickets',
         component: () => import('@/views/workflow/workFlowTickets'),
         meta: { title: '股讯-工单', icon: 'example', noCache: true },
-        hidden: false
+        hidden: true
       },
       {
         path: 'configuration',
