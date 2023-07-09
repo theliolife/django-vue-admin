@@ -116,7 +116,7 @@ def stat_all_batch(tmp_datetime):
         # data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%', i, batch_size])
         data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, i, batch_size])
         data = data.drop_duplicates(subset="code", keep="last")
-        print("########data[last_price]########:", len(data))
+        print("########data[data len]########:", len(data))
         if len(data) == 0:
             continue
 
@@ -214,12 +214,8 @@ def stat_index_all(data, idx):
     # code     cr cr-ma1 cr-ma2 cr-ma3      date
 
     data_new = concat_guess_data(stock_column, data)
-    print(123)
-    print(data_new)
-    exit(1)
     data_new = data_new.round(2)  # 数据保留2位小数
 
-    # print(data_new.head())
     print("########insert db guess_indicators_daily idx :########:", idx)
     try:
         common.insert_db(data_new, "guess_indicators_daily", False, "`date`,`code`")
@@ -246,9 +242,6 @@ def concat_guess_data(stock_column, data):
     print(stock_guess.columns.values)
     # print(stock_guess.head())
     stock_guess = stock_guess.apply(apply_guess, stock_column=stock_column, axis=1)
-    print(111)
-    exit(1)
-    print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
     # print(stock_guess["5d"])
@@ -317,7 +310,6 @@ def apply_guess(tmp, stock_column):
             # print("col name : ", col, tmp_val)
             stock_data_list.append(tmp_val)
             stock_name_list.append(col)
-    # print(stock_data_list)
     return pd.Series(stock_data_list, index=stock_name_list)
 
 
