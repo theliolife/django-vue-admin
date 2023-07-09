@@ -8,7 +8,7 @@ import datetime
 import time
 import sys
 import os
-import MySQLdb
+import logging
 import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.types import NVARCHAR
@@ -187,6 +187,7 @@ if not os.path.exists(bash_stock_tmp):
 
 # 增加读取股票缓存方法。加快处理速度。
 def get_hist_data_cache(code, date_start, date_end):
+    logger = logging.getLogger('log')
     cache_dir = bash_stock_tmp % (date_end[0:7], date_end)
     # 如果没有文件夹创建一个。月文件夹和日文件夹。方便删除。
     # print("cache_dir:", cache_dir)
@@ -196,8 +197,10 @@ def get_hist_data_cache(code, date_start, date_end):
     # 如果缓存存在就直接返回缓存数据。压缩方式。
     if os.path.isfile(cache_file):
         print("######### read from cache #########", cache_file)
+        logger.info(f"######### get data, write cache ######### %s %s %s" % (code, date_start, date_end))
         return pd.read_pickle(cache_file, compression="gzip")
     else:
+        logger.info("######### get data, write cache #########", code, date_start, date_end)
         print("######### get data, write cache #########", code, date_start, date_end)
         stock = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=date_start, end_date=date_end, adjust="")
         stock.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount', 'amplitude', 'quote_change',

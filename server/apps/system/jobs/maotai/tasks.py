@@ -18,7 +18,7 @@ def daily():
 @shared_task
 def price():
     logger = logging.getLogger('log')
-    logger.info('茅台每天任务')
+    logger.info('茅台价格每天任务')
     logger.info(sys.argv)
 
     price.run()
@@ -26,7 +26,7 @@ def price():
 @shared_task
 def reservation():
     logger = logging.getLogger('log')
-    logger.info('茅台每天预约')
+    logger.info('茅台预约每天预约')
     logger.info(sys.argv)
 
     base.run()
