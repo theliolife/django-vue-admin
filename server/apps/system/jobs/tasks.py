@@ -9,13 +9,13 @@ from apps.system.jobs.stocks.guess import runGuess
 
 @shared_task
 def daily():
-    # logger = logging.getLogger('log')
-    # logger.info('请求成功！ response_code:{}；response_headers:{}；response_body:{}')
-    # logger.error('请求出错-{}')
-    # logger.error(sys.argv)
+    logger = logging.getLogger('log')
+    logger.info('股票每天任务')
+    logger.error(sys.argv)
 
     # 获取股票信息
     stat_all_index()
+    runGuess()
 
 @shared_task
 def daily_guess():

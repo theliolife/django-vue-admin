@@ -292,7 +292,7 @@ def apply_guess(tmp, stock_column):
     # stockStat = stockstats.StockDataFrame.retype(pd.read_csv('002032.csv'))
     stockStat = stockstats.StockDataFrame.retype(stock)
 
-    print("########################## print result ##########################")
+    # print("########################## print result ##########################")
     for col in stock_column:
         if col == 'date':
             stock_data_list.append(date)
