@@ -26,13 +26,13 @@ def stat_all_lite_buy(tmp_datetime):
             SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
                  `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
-            FROM guess_indicators_daily WHERE `date` = %s 
+            FROM stock_guess_indicators_daily WHERE `date` = %s 
                         and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  
     """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -42,7 +42,7 @@ def stat_all_lite_buy(tmp_datetime):
     print("######## stat_all_lite_buy len data ########:", len(data))
 
     try:
-        common.insert_db(data, "guess_indicators_lite_buy_daily", False, "`date`,`code`")
+        common.insert_db(data, "stock_guess_indicators_lite_buy_daily", False, "`date`,`code`")
     except Exception as e:
         print("error :", e)
 
@@ -61,13 +61,13 @@ def stat_all_lite_sell(tmp_datetime):
             SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
                  `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
-                        FROM guess_indicators_daily WHERE `date` = %s 
+                        FROM stock_guess_indicators_daily WHERE `date` = %s 
                         and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  
     """
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -77,7 +77,7 @@ def stat_all_lite_sell(tmp_datetime):
     print("######## stat_all_lite_sell len data ########:", len(data))
 
     try:
-        common.insert_db(data, "guess_indicators_lite_sell_daily", False, "`date`,`code`")
+        common.insert_db(data, "stock_guess_indicators_lite_sell_daily", False, "`date`,`code`")
     except Exception as e:
         print("error :", e)
 
@@ -90,7 +90,7 @@ def stat_all_batch(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `guess_indicators_daily` WHERE `date`= %s " % datetime_int
+        del_sql = " DELETE FROM `stock_guess_indicators_daily` WHERE `date`= %s " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -216,9 +216,9 @@ def stat_index_all(data, idx):
     data_new = concat_guess_data(stock_column, data)
     data_new = data_new.round(2)  # 数据保留2位小数
 
-    print("########insert db guess_indicators_daily idx :########:", idx)
+    print("########insert db stock_guess_indicators_daily idx :########:", idx)
     try:
-        common.insert_db(data_new, "guess_indicators_daily", False, "`date`,`code`")
+        common.insert_db(data_new, "stock_guess_indicators_daily", False, "`date`,`code`")
     except Exception as e:
         print("error :", e)
 

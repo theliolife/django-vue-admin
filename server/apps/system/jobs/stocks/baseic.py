@@ -162,5 +162,5 @@ def statistic(tmp_datetime):
 
 
 def stat_all_index():
-    # common.run_with_args(statistic)
+    common.run_with_args(statistic)
     common.run_with_args(stat_all)
