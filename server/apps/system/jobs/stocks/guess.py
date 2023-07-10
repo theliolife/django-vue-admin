@@ -37,7 +37,7 @@ def stat_all_lite_buy(tmp_datetime):
     except Exception as e:
         print("error :", e)
 
-    data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
+    data = pd.read_sql(sql=sql_1, con=common.engine())
     data = data.drop_duplicates(subset="code", keep="last")
     print("######## stat_all_lite_buy len data ########:", len(data))
 
@@ -72,7 +72,7 @@ def stat_all_lite_sell(tmp_datetime):
     except Exception as e:
         print("error :", e)
 
-    data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
+    data = pd.read_sql(sql=sql_1, con=common.engine())
     data = data.drop_duplicates(subset="code", keep="last")
     print("######## stat_all_lite_sell len data ########:", len(data))
 
@@ -99,7 +99,7 @@ def stat_all_batch(tmp_datetime):
     SELECT count(1) FROM  stock_zh_a_spot_em WHERE `date` = %s and `open` > 0
     """
     # 修改逻辑，增加中小板块计算。 中小板：002，创业板：300 。已经是经过筛选的数据了。
-    count = common.select_count(sql_count, params=[datetime_int])
+    count = common.select_count(sql_count)
     print("count :", count)
     batch_size = 100
     end = int(math.ceil(float(count) / batch_size) * batch_size)
