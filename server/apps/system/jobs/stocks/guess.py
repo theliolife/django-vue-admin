@@ -32,7 +32,7 @@ def stat_all_lite_buy(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -67,7 +67,7 @@ def stat_all_lite_sell(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -90,7 +90,7 @@ def stat_all_batch(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_guess_indicators_daily` WHERE `date`= %s " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_daily` WHERE `date`= %s " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
