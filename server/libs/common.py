@@ -200,7 +200,7 @@ def get_hist_data_cache(code, date_start, date_end):
         logger.info(f"######### get data, write cache ######### %s %s %s" % (code, date_start, date_end))
         return pd.read_pickle(cache_file, compression="gzip")
     else:
-        logger.info("######### get data, write cache #########", code, date_start, date_end)
+        logger.info(f"######### get data, write cache #########  %s %s %s", (code, date_start, date_end))
         print("######### get data, write cache #########", code, date_start, date_end)
         stock = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=date_start, end_date=date_end, adjust="")
         stock.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount', 'amplitude', 'quote_change',
