@@ -3,12 +3,26 @@
     <el-row :style="{marginTop: '30px'}">
       <el-col :offset="1" :span="22">
         <el-card class="box-card">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="审批人">
+              <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域">
+              <el-select v-model="formInline.region" placeholder="活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">查询</el-button>
+            </el-form-item>
+          </el-form>
+
           <el-table
             stripe
             :row-class-name="tableRowClassName"
             :data="tableData.filter(data => !search || data.title.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%">
-
             <el-table-column type="expand">
               <template slot-scope="props">
                 <el-card class="box-card">
@@ -115,6 +129,11 @@ export default {
       tableData: [],
       search: '',
 
+      formInline: {
+        user: '',
+        region: ''
+      },
+
       drawer: false,
       direction: 'rtl',
 
@@ -174,6 +193,9 @@ export default {
     });
   },
   methods: {
+    onSubmit() {
+      console.log('submit!');
+    },
     tableRowClassName({row, rowIndex}) {
       if (row.title.indexOf("3号院") !== -1) {
         return 'success-row';

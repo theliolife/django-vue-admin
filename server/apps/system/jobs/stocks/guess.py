@@ -1,5 +1,4 @@
-#!/usr/local/bin/python3
-# -*- coding: utf-8 -*-
+# coding=utf-8
 
 
 import libs.common as common
@@ -22,13 +21,12 @@ def stat_all_lite_buy(tmp_datetime):
     # J大于100时为超买，小于10时为超卖。
     # 当六日指标上升到达80时，表示股市已有超买现象
     # 当CCI＞﹢100 时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
-    sql_1 = """
+    sql_1 = f"""
             SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
                  `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
-            FROM stock_guess_indicators_daily WHERE `date` = %s 
-                        and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  
-    """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
+            FROM stock_guess_indicators_daily WHERE `date` = '%s' and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  
+    """ % datetime_int # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
     try:
         # 删除老数据。
@@ -57,13 +55,12 @@ def stat_all_lite_sell(tmp_datetime):
     # J大于100时为超买，小于10时为超卖。
     # 当六日强弱指标下降至20时，表示股市有超卖现象
     # 当CCI＜﹣100时，表明股价已经进入另一个非常态区间——超卖区间，投资者可以逢低吸纳股票。
-    sql_1 = """
+    sql_1 = f"""
             SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
                  `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
-                        FROM stock_guess_indicators_daily WHERE `date` = %s 
-                        and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  
-    """
+                        FROM stock_guess_indicators_daily WHERE `date` = '%s' and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  
+    """ % datetime_int
 
     try:
         # 删除老数据。
@@ -95,9 +92,9 @@ def stat_all_batch(tmp_datetime):
     except Exception as e:
         print("error :", e)
 
-    sql_count = """
-    SELECT count(1) FROM  stock_zh_a_spot_em WHERE `date` = %s and `open` > 0
-    """
+    sql_count = f"""
+    SELECT count(1) FROM  stock_zh_a_spot_em WHERE `date` = '%s' and `open` > 0
+    """ % datetime_int
     # 修改逻辑，增加中小板块计算。 中小板：002，创业板：300 。已经是经过筛选的数据了。
     count = common.select_count(sql_count)
     print("count :", count)
@@ -108,13 +105,12 @@ def stat_all_batch(tmp_datetime):
         print("loop :", i)
         # 查询今日满足股票数据。剔除数据：创业板股票数据，中小板股票数据，所有st股票
         # #`code` not like '002%' and `code` not like '300%'  and `name` not like '%st%'
-        sql_1 = """ 
+        sql_1 = f""" 
                     SELECT `date`,`code`,`name`,`last_price`,`change_percent`,`change_amount`,`volume`,`turnover`,
                             `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`
-                    FROM stock_zh_a_spot_em WHERE `date` = %s and `open` > 0  limit %s , %s
-                    """
-        # data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%', i, batch_size])
-        data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, i, batch_size])
+                    FROM stock_zh_a_spot_em WHERE `date` = '%s' and `open` > 0  limit %s, %s
+                    """ % (datetime_int, i, batch_size)
+        data = pd.read_sql(sql=sql_1, con=common.engine())
         data = data.drop_duplicates(subset="code", keep="last")
         print("########data[data len]########:", len(data))
         if len(data) == 0:

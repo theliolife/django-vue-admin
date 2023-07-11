@@ -4,11 +4,13 @@ import random
 import time
 import re
 import os
+import math
 import json
 import requests
 import scrapy
 from datetime import datetime
 from geopy.distance import geodesic
+
 # CREATE TABLE `sp_house` (
 #   `id` int unsigned NOT NULL AUTO_INCREMENT,
 #   `house_code` varchar(100) DEFAULT NULL,
@@ -22,6 +24,23 @@ from geopy.distance import geodesic
 #   `utime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 #   PRIMARY KEY (`id`)
 # ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+def bdToGaoDe(lon, lat):
+    """
+    百度坐标转高德坐标
+    :param lon:
+    :param lat:
+    :return:
+    """
+
+    PI = 3.14159265358979324 * 3000.0 / 180.0
+    x = lon - 0.0065
+    y = lat - 0.006
+    z = math.sqrt(x * x + y * y) - 0.00002 * math.sin(y * PI)
+    theta = math.atan2(y, x) - 0.000003 * math.cos(x * PI)
+    lon = z * math.cos(theta)
+    lat = z * math.sin(theta)
+    return lon, lat
 
 
 # https://lbs.amap.com/api/webservice/guide/api/direction
@@ -122,8 +141,10 @@ class NewsSpider(scrapy.Spider):
             latitude = latitude[0]
 
         # 维护时间
-        item["longitude"] = longitude
-        item["latitude"] = latitude
+        # item["longitude"] = longitude
+        # item["latitude"] = latitude
+
+        item["longitude"], item["latitude"] = bdToGaoDe(float(longitude), float(latitude))
         item["distance"] = geodesic((float(latitude), float(longitude)), (39.91092, 116.41338)).km
 
         target_point = ','.join([longitude, latitude])

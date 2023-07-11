@@ -47,8 +47,8 @@ class House(models.Model):
             operate_time = datetime.now().strftime("%Y-%m-%d")
         operate_time_str = datetime.now().strftime("%Y%m%d")
 
-        # cursor.execute(f"select * from sp_house where operate_time = '%s' or operate_time = '%s'" % (operate_time, operate_time_str))
-        cursor.execute(f"select * from sp_house where ctime > '%s'" % (operate_time))
+        cursor.execute(f"select * from sp_house where operate_time = '%s' or operate_time = '%s'" % (operate_time, operate_time_str))
+        # cursor.execute(f"select * from sp_house where ctime > '%s'" % (operate_time))
         res = House.dict_fetch_all(cursor)
 
         return {'data': res}
