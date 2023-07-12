@@ -207,6 +207,6 @@ def get_hist_data_cache(code, date_start, date_end):
                          'ups_downs', 'turnover']
         if stock is None:
             return None
-        stock = stock.sort_index(0)  # 将数据按照日期排序下。
+        stock = stock.sort_index(axis=0)  # 将数据按照日期排序下。
         stock.to_pickle(cache_file, compression="gzip")
         return stock

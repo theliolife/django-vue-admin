@@ -279,10 +279,10 @@ def apply_guess(tmp, stock_column):
     # print(stock.head())
     # open  high  close   low     volume
     # stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
-    stock = stock.sort_index(0)  # 将数据按照日期排序下。
+    stock = stock.sort_index(axis=0)  # 将数据按照日期排序下。
 
     stock["date"] = stock.index.values  # 增加日期列。
-    stock = stock.sort_index(0)  # 将数据按照日期排序下。
+    stock = stock.sort_index(axis=0)  # 将数据按照日期排序下。
     # print(stock) [186 rows x 14 columns]
     # 初始化统计类
     # stockStat = stockstats.StockDataFrame.retype(pd.read_csv('002032.csv'))
