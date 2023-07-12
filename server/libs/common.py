@@ -138,7 +138,7 @@ def run_with_args(run_fun):
         # 判断如果是每天 中午 12 点之前运行，跑昨天的数据。
         tmp_datetime_show = (tmp_datetime_show + datetime.timedelta(days=-1))
     tmp_datetime_str = tmp_datetime_show.strftime("%Y-%m-%d %H:%M:%S.%f")
-    print("\n######################### hour_int %d " % tmp_hour_int)
+    print("\n######################### hour_int %d " % (tmp_hour_int))
     str_db = "MYSQL_HOST :" + MYSQL_HOST + ", MYSQL_USER :" + MYSQL_USER + ", MYSQL_DB :" + MYSQL_DB
     print("\n######################### " + str_db + "  ######################### ")
     print("\n######################### begin run %s %s  #########################" % (run_fun, tmp_datetime_str))
@@ -174,12 +174,12 @@ def run_with_args(run_fun):
         except Exception as e:
             print("error :", e)
             traceback.print_exc()
-    print("######################### finish %s , use time: %s #########################" % (
+    print(f"######################### finish %s , use time: %s #########################" % (
         tmp_datetime_str, time.time() - start))
 
 
 # 设置基础目录，每次加载使用。
-bash_stock_tmp = BASE_DIR + "/data/cache/hist_data_cache/%s/%s/"
+bash_stock_tmp = BASE_DIR + f"/data/cache/hist_data_cache/%s/%s/"
 if not os.path.exists(bash_stock_tmp):
     os.makedirs(bash_stock_tmp)  # 创建多个文件夹结构。
     print("######################### init tmp dir #########################")
@@ -193,7 +193,7 @@ def get_hist_data_cache(code, date_start, date_end):
     # print("cache_dir:", cache_dir)
     if not os.path.exists(cache_dir):
         os.makedirs(cache_dir)
-    cache_file = cache_dir + "%s^%s.gzip.pickle" % (date_end, code)
+    cache_file = cache_dir + f"%s^%s.gzip.pickle" % (date_end, code)
     # 如果缓存存在就直接返回缓存数据。压缩方式。
     if os.path.isfile(cache_file):
         print("######### read from cache #########", cache_file)
@@ -201,7 +201,7 @@ def get_hist_data_cache(code, date_start, date_end):
         return pd.read_pickle(cache_file, compression="gzip")
     else:
         logger.info(f"######### get data, write cache #########  %s %s %s", (code, date_start, date_end))
-        print("######### get data, write cache #########", code, date_start, date_end)
+        print("######### get data, write cache #########")
         stock = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=date_start, end_date=date_end, adjust="")
         stock.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount', 'amplitude', 'quote_change',
                          'ups_downs', 'turnover']

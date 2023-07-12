@@ -30,7 +30,7 @@ def stat_all_lite_buy(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = f" DELETE FROM `stock_guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % (datetime_int)
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -60,11 +60,11 @@ def stat_all_lite_sell(tmp_datetime):
                  `amplitude`,`high`,`low`,`open`,`closed`,`volume_ratio`,`turnover_rate`,`pe_ratio`,`pb_ratio`,
                  `kdjj`,`rsi_6`,`cci`
                         FROM stock_guess_indicators_daily WHERE `date` = '%s' and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  
-    """ % datetime_int
+    """ % (datetime_int)
 
     try:
         # 删除老数据。
-        del_sql = f" DELETE FROM `stock_guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % (datetime_int)
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -87,14 +87,14 @@ def stat_all_batch(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = f" DELETE FROM `stock_guess_indicators_daily` WHERE `date`= %s " % datetime_int
+        del_sql = f" DELETE FROM `stock_guess_indicators_daily` WHERE `date`= %s " % (datetime_int)
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
 
     sql_count = f"""
     SELECT count(1) FROM  stock_zh_a_spot_em WHERE `date` = '%s' and `open` > 0
-    """ % datetime_int
+    """ % (datetime_int)
     # 修改逻辑，增加中小板块计算。 中小板：002，创业板：300 。已经是经过筛选的数据了。
     count = common.select_count(sql_count)
     print("count :", count)

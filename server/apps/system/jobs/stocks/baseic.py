@@ -67,7 +67,7 @@ def stat_all(tmp_datetime):
         data['date'] = datetime_int  # 修改时间成为int类型。
 
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_zh_a_spot_em` where `date` = '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_zh_a_spot_em` where `date` = '%s' " % (datetime_int)
         common.insert(del_sql)
 
         data.set_index('code', inplace=True)
@@ -99,7 +99,7 @@ def stat_all(tmp_datetime):
         stock_lhb_ggtj_sina['date'] = datetime_int  # 修改时间成为int类型。
 
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_lhb_ggtj_sina` where `date` = '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_lhb_ggtj_sina` where `date` = '%s' " % (datetime_int)
         common.insert(del_sql)
 
         common.insert_db(stock_lhb_ggtj_sina, "stock_lhb_ggtj_sina", True, "`date`,`code`")
@@ -152,7 +152,7 @@ def statistic(tmp_datetime):
             print("round error :", e)
 
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_dzjy_mrtj` where `date` = '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_dzjy_mrtj` where `date` = '%s' " % (datetime_int)
         common.insert(del_sql)
 
         common.insert_db(stock_dzjy_mrtj, "stock_dzjy_mrtj", True, "`date`,`code`")
