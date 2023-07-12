@@ -205,7 +205,7 @@ def stat_index_all(data, idx):
 
     stock_column = ['adx', 'adxr', 'boll', 'boll_lb', 'boll_ub', 'cci', 'cci_20', 'close_-1_r',
                     'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
-                    'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
+                    'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'pdi',
                     'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6']
     # code     cr cr-ma1 cr-ma2 cr-ma3      date
 
