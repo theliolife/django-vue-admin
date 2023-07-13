@@ -61,7 +61,9 @@
       border
       v-el-height-adaptive-table="{ bottomOffset: 50 }"
     >
-      <el-table-column type="index" width="50" />
+      <el-table-column type="index" align="center" width="50" label="ID">
+        <template slot-scope="scope">{{ scope.row.id }} </template>
+      </el-table-column>
       <el-table-column align="center" label="名称">
         <template slot-scope="scope">{{ scope.row.name }} </template>
       </el-table-column>
@@ -71,13 +73,13 @@
       <el-table-column align="center" label="定时策略">
         <template slot-scope="scope">{{ scope.row.schedule }} </template>
       </el-table-column>
-      <el-table-column align="header-center" label="已执行次数">
+      <el-table-column align="center" width="100" label="已执行次数">
         <template slot-scope="scope">{{ scope.row.total_run_count }}</template>
       </el-table-column>
-      <el-table-column align="header-center" label="最后执行时间">
+      <el-table-column align="center" width="200" label="最后执行时间">
         <template slot-scope="scope">{{ scope.row.last_run_at }}</template>
       </el-table-column>
-      <el-table-column label="是否启用">
+      <el-table-column label="是否启用" align="center" width="80">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.enabled"
@@ -87,7 +89,7 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
             type="primary"
