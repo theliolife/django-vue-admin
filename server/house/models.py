@@ -40,15 +40,22 @@ class House(models.Model):
         return {'data': res}
 
     @staticmethod
-    def list(operate_time=''):
+    def list(title, floor, operate_time=''):
         cursor = connection.cursor()
 
         if operate_time == '':
             operate_time = datetime.now().strftime("%Y-%m-%d")
         operate_time_str = datetime.now().strftime("%Y%m%d")
 
-        cursor.execute(f"select * from sp_house where operate_time = '%s' or operate_time = '%s' group by house_code" % (operate_time, operate_time_str))
-        # cursor.execute(f"select * from sp_house where ctime > '%s'" % (operate_time))
+        title_sql = ''
+        if title != '':
+            title_sql = f" AND title like '%{title}%'"
+
+        floor_sql = ''
+        if floor != '':
+            floor_sql = f" AND floor like '%{floor}%'"
+
+        cursor.execute(f"select * from sp_house where (operate_time = '{operate_time}' or operate_time = '{operate_time_str}') {title_sql} {floor_sql} group by house_code")
         res = House.dict_fetch_all(cursor)
 
         return {'data': res}

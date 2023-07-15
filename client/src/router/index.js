@@ -333,7 +333,7 @@ export const asyncRoutes = [
         children: [
           {
             path: process.env.VUE_APP_BASE_API + '/admin/',
-            meta: { title: 'Django后台', icon: 'link', perms: ['dev_admin'] }
+            meta: { title: '管理后台', icon: 'link', perms: ['dev_admin'] }
           }
         ]
       }

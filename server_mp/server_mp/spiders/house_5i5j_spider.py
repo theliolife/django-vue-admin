@@ -56,14 +56,14 @@ def walks(origin, destination):
     return response.text
 
 class NewsSpider(scrapy.Spider):
-    name = 'house'
+    name = 'house_5i5j'
 
     # 允许此爬虫抓取的域的字符串的可选列表，指定一个列表可以抓取，其它就不会抓取了。
     allowed_domains = ['bj.zu.ke.com']
 
     # 当没有指定特定网址时，爬虫将开始抓取的网址列表。
-    start_urls = ['https://bj.zu.ke.com/zufang/rs五棵松/']
-    base_url = 'https://bj.zu.ke.com/zufang/pg{0}rs五棵松/#contentList'
+    start_urls = ['https://bj.5i5j.com/zufang/n1/_五棵松']
+    base_url = 'https://bj.5i5j.com/zufang/n{0}/_五棵松'
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
@@ -80,9 +80,9 @@ class NewsSpider(scrapy.Spider):
             yield scrapy.Request(url=url, headers=headers, callback=self.parse)
 
     def parse(self, response):
-        for result in response.xpath('//div[@class="content__list--item"]'):
+        for result in response.xpath('//div[@class="listCon"]'):
             item = {}
-            item['source'] = 'lianjia'
+            item['source'] = '5i5j'
             item['house_code'] = result.xpath('@data-house_code').extract_first()
 
             item['price'] = result.xpath(

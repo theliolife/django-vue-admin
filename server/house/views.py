@@ -22,12 +22,16 @@ def dashboard(request):
 
 
 def list(request):
+    title = request.GET.get('title')
+    floor = request.GET.get('floor')
+    operate_time_start = request.GET.get('operate_time_start')
+    operate_time_end = request.GET.get('operate_time_end')
     operate_date = request.GET.get('operate_date')
     if operate_date is None:
         # return JsonResponse({'data': "必须传递operate_date参数"}, content_type="application/json")
         operate_date = datetime.now().strftime("%Y-%m-%d")
 
-    data = House.list(operate_date)
+    data = House.list(title, floor, operate_date)
     res = {
         'code': 200,
         'data': data,

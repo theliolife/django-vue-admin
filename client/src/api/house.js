@@ -13,6 +13,6 @@ export function houseList(data) {
   return request({
     url: '/house/list',
     method: 'get',
-    data
+    params: data
   })
 }
