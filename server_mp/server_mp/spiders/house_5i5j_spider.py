@@ -102,7 +102,13 @@ class NewsSpider(scrapy.Spider):
                 item["operate_time"] = now.strftime("%Y%m%d")
             else:
                 pattern = '[1-2][0-9][0-9][0-9]-[0-1]{0,1}[0-9]-[0-3]{0,1}[0-9]'
-                item['operate_time'] = re.findall(pattern, operateTimeStr)[0]
+                matchRes = re.findall(pattern, operateTimeStr)
+                if len(matchRes) == 0:
+                    continue
+                item['operate_time'] = matchRes[0]
+
+                # now = datetime.now()
+                # item["operate_time"] = now.strftime("%Y%m%d")
 
             item['price'] = textInfoResult.xpath(
                 './/div[@class="listX"]/div[@class="jia"]/p[@class="redC"]/strong/text()').extract_first()

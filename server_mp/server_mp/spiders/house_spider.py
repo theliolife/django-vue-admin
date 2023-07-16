@@ -107,6 +107,8 @@ class NewsSpider(scrapy.Spider):
                     meta={"item": item}
                 )
 
+            yield item
+
         # 计算下一页的 URL
         self.page_num += 1
         if self.page_num > 6:
