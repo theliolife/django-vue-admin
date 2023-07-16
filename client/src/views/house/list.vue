@@ -195,7 +195,7 @@ export default {
   },
   mounted() {
     let that = this
-    houseList({}).then((res) => {
+    houseList(this.searchParams).then((res) => {
       that.tableData = res.data.data
 
       that.tableData.map(function (item){

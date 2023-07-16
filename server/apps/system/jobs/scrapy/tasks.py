@@ -19,5 +19,13 @@ def daily():
 
 
 @shared_task
+def wiwj():
+    logger = logging.getLogger('log')
+    logger.info('请求成功！ scrapy_5i5j爬虫每日的任务')
+    logger.info(sys.argv)
+
+    scrapy_sp.start_spider('server_mp', 'house_5i5j')
+
+@shared_task
 def guess():
     print("爬虫每日任务3")

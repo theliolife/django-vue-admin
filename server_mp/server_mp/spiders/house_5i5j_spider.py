@@ -59,11 +59,11 @@ class NewsSpider(scrapy.Spider):
     name = 'house_5i5j'
 
     # 允许此爬虫抓取的域的字符串的可选列表，指定一个列表可以抓取，其它就不会抓取了。
-    allowed_domains = ['bj.zu.ke.com']
+    allowed_domains = ['bj.5i5j.com']
 
     # 当没有指定特定网址时，爬虫将开始抓取的网址列表。
-    start_urls = ['https://bj.5i5j.com/zufang/n1/_五棵松']
-    base_url = 'https://bj.5i5j.com/zufang/n{0}/_五棵松'
+    start_urls = ['http://bj.5i5j.com/zufang/n1/_五棵松']
+    base_url = 'http://bj.5i5j.com/zufang/n{0}/_五棵松'
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
@@ -77,21 +77,35 @@ class NewsSpider(scrapy.Spider):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
         }
         for url in self.start_urls:
-            yield scrapy.Request(url=url, headers=headers, callback=self.parse)
+            yield scrapy.Request(url=url, headers=headers, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
-        for result in response.xpath('//div[@class="listCon"]'):
+        for result in response.xpath('//ul[@class="pList rentList"]/li'):
             item = {}
             item['source'] = '5i5j'
-            item['house_code'] = result.xpath('@data-house_code').extract_first()
 
-            item['price'] = result.xpath(
-                './/div[@class="content__list--item--main"]/span[@class="content__list--item-price"]/em/text()').extract_first()
+            imgInfoResult = result.xpath('.//div[@class="listImg"]/a/img/@src').extract_first()
+            if imgInfoResult == None:
+                imgInfoResult = ''
+            item['img'] = imgInfoResult
 
-            item['title'] = result.xpath('.//p[@class="content__list--item--title"]/a/text()').extract_first()
-            # item['title'] = self.get_chinese_str(item['title'])
-            item['url'] = 'https://bj.zu.ke.com' + result.xpath('.//a[@class="content__list--item--aside"]/@href').extract_first()
-            item['img'] = result.xpath('.//a[@class="content__list--item--aside"]/img/@src').extract_first()
+            textInfoResult = result.xpath('.//div[@class="listCon"]')
+            base_json = textInfoResult.xpath('.//h3/a').extract_first()
+            pattern = 'houseid_var":"(.*?)"'
+            item['house_code'] = re.findall(pattern, base_json)[0]
+
+            item['price'] = textInfoResult.xpath(
+                './/div[@class="listX"]/div[@class="jia"]/p[@class="redC"]/strong/text()').extract_first()
+
+            item['title'] = textInfoResult.xpath('.//h3/a/text()').extract_first()
+
+            item['url'] = 'bj.5i5j.com' + textInfoResult.xpath('.//h3/a/@href').extract_first()
+
+            item["floor"] = textInfoResult.xpath('.//div[@class="listX"]/p[position()=1]/text()').extract_first()
+            item['size'] = textInfoResult.xpath('.//div[@class="listX"]/p[position()=1]/text()').extract_first()
+
+            pattern = u"([1-9]*)㎡"
+            item['size'] = re.findall(pattern, item['size'])
 
             if item['url']:
                 headers = {
