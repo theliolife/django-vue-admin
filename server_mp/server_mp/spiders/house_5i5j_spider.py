@@ -62,8 +62,8 @@ class NewsSpider(scrapy.Spider):
     allowed_domains = ['bj.5i5j.com']
 
     # 当没有指定特定网址时，爬虫将开始抓取的网址列表。
-    start_urls = ['http://bj.5i5j.com/zufang/n1/_五棵松']
-    base_url = 'http://bj.5i5j.com/zufang/n{0}/_五棵松'
+    start_urls = ['http://bj.5i5j.com/zufang/o8n1/_五棵松']
+    base_url = 'http://bj.5i5j.com/zufang/o8nn{0}/_五棵松'
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
@@ -93,6 +93,15 @@ class NewsSpider(scrapy.Spider):
             base_json = textInfoResult.xpath('.//h3/a').extract_first()
             pattern = 'houseid_var":"(.*?)"'
             item['house_code'] = re.findall(pattern, base_json)[0]
+
+            operateTimeStr = textInfoResult.xpath('.//div[@class="listX"]/p[position()=3]/text()').extract_first()
+            if operateTimeStr.encode('utf-8').find('今天发布') != -1:
+                # 维护时间
+                now = datetime.now()
+                item["operate_time"] = now.strftime("%Y%m%d")
+            else:
+                pattern = '[1-2][0-9][0-9][0-9]-[0-1]{0,1}[0-9]-[0-3]{0,1}[0-9]'
+                item['operate_time'] = re.findall(pattern, base_json)[0]
 
             item['price'] = textInfoResult.xpath(
                 './/div[@class="listX"]/div[@class="jia"]/p[@class="redC"]/strong/text()').extract_first()
@@ -159,8 +168,6 @@ class NewsSpider(scrapy.Spider):
 
         target_point = ','.join([longitude, latitude])
         item["gaode"] = walks(target_point, '116.276554,39.904581')
-
-        item["operate_time"] = now.strftime("%Y%m%d")
 
         item["floor"] = detailText.xpath("//div[@class='jlyoubai fl jlyoubai1']/div[@class='jlquannei']/p[@class='houseinfor2']/text()").extract_first()
         item["size"] = detailText.xpath("//div[@class='jlyoubai fl jlyoubai2']/div[@class='jlquannei']/p[@class='houseinfor1']/text()").extract_first()
