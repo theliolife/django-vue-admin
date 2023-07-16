@@ -99,20 +99,12 @@ class NewsSpider(scrapy.Spider):
 
             item['title'] = textInfoResult.xpath('.//h3/a/text()').extract_first()
 
-            item['url'] = 'bj.5i5j.com' + textInfoResult.xpath('.//h3/a/@href').extract_first()
-
-            item["floor"] = textInfoResult.xpath('.//div[@class="listX"]/p[position()=1]/text()').extract_first()
-            item['size'] = textInfoResult.xpath('.//div[@class="listX"]/p[position()=1]/text()').extract_first()
-
-            pattern = u"([1-9]*)㎡"
-            item['size'] = re.findall(pattern, item['size'])
-
+            item['url'] = 'https://bj.5i5j.com' + textInfoResult.xpath('.//h3/a/@href').extract_first()
             if item['url']:
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
                 }
 
-                print(item['url'])
                 # 请求详情页
                 yield scrapy.Request(
                     url=item['url'],
@@ -125,7 +117,7 @@ class NewsSpider(scrapy.Spider):
 
         # 计算下一页的 URL
         self.page_num += 1
-        if self.page_num > 6:
+        if self.page_num > 8:
             print('执行完毕')
             exit(1)
         next_url = self.base_url.format(self.page_num)
@@ -142,20 +134,23 @@ class NewsSpider(scrapy.Spider):
     def parse_detail(self, response):
         item = response.meta["item"]
 
-        latText = response.xpath('//script/text()').extract()[3]
+        latText = response.xpath('//script[@type="text/javascript"]/text()').extract()[2]
 
+        detailText = response.xpath('//div[@class="content fr"]')
 
-        pattern = "longitude: '(.*)',"
+        pattern = 'community_x = "(.*)";'
         longitude = re.findall(pattern, latText)
         if len(longitude) > 0:
             longitude = longitude[0]
 
-        pattern = "latitude: '(.*)'"
+        pattern = 'community_y = "(.*)";'
         latitude = re.findall(pattern, latText)
         if len(latitude) > 0:
             latitude = latitude[0]
 
         # 维护时间
+        now = datetime.now()
+
         # item["longitude"] = longitude
         # item["latitude"] = latitude
 
@@ -165,13 +160,12 @@ class NewsSpider(scrapy.Spider):
         target_point = ','.join([longitude, latitude])
         item["gaode"] = walks(target_point, '116.276554,39.904581')
 
-        item["operate_time"] = response.xpath("//div[@class='content__subtitle']/text()").extract_first()
-        item["operate_time"] = self.get_number_str(item['operate_time'])
-        item["size"] = response.xpath("//div[@class='content__article__info']/ul/li[position()=2]/text()").extract_first()
-        item["size"] = self.get_number_str(item['size'])
-        item["floor"] = response.xpath("//li[@class='floor']/span[position()=2]/text()").extract_first()
-        now = datetime.now()
+        item["operate_time"] = now.strftime("%Y%m%d")
+
+        item["floor"] = detailText.xpath("//div[@class='jlyoubai fl jlyoubai1']/div[@class='jlquannei']/p[@class='houseinfor2']/text()").extract_first()
+        item["size"] = detailText.xpath("//div[@class='jlyoubai fl jlyoubai2']/div[@class='jlquannei']/p[@class='houseinfor1']/text()").extract_first()
         item["ctime"] = now.strftime("%Y-%m-%d %H:%M:%S")
+
         yield item  # 对返回的数据进行处理
 
 

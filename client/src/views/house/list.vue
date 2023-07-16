@@ -166,7 +166,7 @@ export default {
           console.log(o.getCenter());
         },
         click: e => {
-          alert('map clicked')
+          // alert('map clicked')
         }
       },
       map_path: '',
@@ -204,7 +204,7 @@ export default {
           content: item['title'] + item['floor'],
           events: {
             click: e => {
-              alert(item['title'] + item['floor'])
+              alert((item['source'] == '5i5j' ? '我爱我家 ' : '贝壳 ') + item['title'] + item['floor'])
             }
           },
         })
@@ -239,7 +239,7 @@ export default {
             position: [item['longitude'], item['latitude']],
             events: {
               click: e => {
-                alert(item['title'] + item['floor'])
+                alert((item['source'] == '5i5j' ? '我爱我家 ' : '贝壳 ') + item['title'] + item['floor'])
               }
             },
           })

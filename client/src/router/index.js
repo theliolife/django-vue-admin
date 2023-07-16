@@ -211,8 +211,14 @@ export const asyncRoutes = [
         meta: { title: '房讯看板', icon: 'example', perms: ['house_index'] }
       },
       {
-        path: 'ticket',
-        name: 'ticket',
+        path: 'map',
+        name: 'map',
+        component: () => import('@/views/house/map'),
+        meta: { title: '房源地图', icon: 'example', noCache: true, perms: ['house_map'] }
+      },
+      {
+        path: 'list',
+        name: 'list',
         component: () => import('@/views/house/list'),
         meta: { title: '最新房源', icon: 'example', noCache: true, perms: ['house_list'] }
       }
