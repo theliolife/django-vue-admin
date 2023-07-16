@@ -63,7 +63,7 @@ class NewsSpider(scrapy.Spider):
 
     # 当没有指定特定网址时，爬虫将开始抓取的网址列表。
     start_urls = ['http://bj.5i5j.com/zufang/o8n1/_五棵松']
-    base_url = 'http://bj.5i5j.com/zufang/o8nn{0}/_五棵松'
+    base_url = 'http://bj.5i5j.com/zufang/o8n{0}/_五棵松'
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
@@ -123,7 +123,6 @@ class NewsSpider(scrapy.Spider):
                     meta={"item": item}
                 )
 
-            yield item
 
         # 计算下一页的 URL
         self.page_num += 1
@@ -138,6 +137,9 @@ class NewsSpider(scrapy.Spider):
             }
             sec = random.uniform(1, 3)
             time.sleep(sec)
+
+            print(next_url)
+            print('+=======================')
             yield scrapy.Request(url=next_url, headers=headers, callback=self.parse)
 
     # 解析详情页
