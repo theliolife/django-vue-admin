@@ -52,7 +52,7 @@ class MySQLPipeline(object):
         self.cursor = self.db.cursor()
 
     def process_item(self, item, spider):
-        if spider.name == 'house' or spider.name == 'house_5i5j':
+        if spider.name == 'house' or spider.name == 'house_5i5j' or spider.name == 'house_ajk':
 
             values = (
                 item['source'],
