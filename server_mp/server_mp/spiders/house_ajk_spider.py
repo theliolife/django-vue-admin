@@ -78,8 +78,9 @@ class HouseAnjuke(scrapy.Spider):
     def parse(self, response):
         item = HouseItem()
         house_div = response.xpath("//div[@class='zu-itemmod']")
-
-        for each in [house_div[0]]:
+	
+	# for each in [house_div[0]]:
+        for each in house_div:
             item['source'] = 'ajk'
             item['title'] = each.xpath(".//div[@class='zu-info']//h3//a//b/text()").extract()[0].strip()
 
@@ -108,7 +109,7 @@ class HouseAnjuke(scrapy.Spider):
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
                 }
                 print(url)
-                sec = random.uniform(3, 6)
+                sec = random.uniform(1, 3)
                 time.sleep(sec)
 
                 # 请求详情页
@@ -120,19 +121,19 @@ class HouseAnjuke(scrapy.Spider):
                 )
 
         # 计算下一页的 URL
-        # self.page_num += 1
-        # if self.page_num > 6:
-        #     print('执行完毕')
-        #     exit(1)
-        # next_url = self.base_url.format(self.page_num)
-        # # 如果下一页的 URL 不是最后一页，则继续请求下一页
-        # if next_url:
-        #     headers = {
-        #         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        #     }
-        #     sec = random.uniform(1, 3)
-        #     time.sleep(sec)
-        #     yield scrapy.Request(url=next_url, headers=headers, callback=self.parse)
+        self.page_num += 1
+        if self.page_num > 6:
+            print('执行完毕')
+            exit(1)
+        next_url = self.base_url.format(self.page_num)
+        # 如果下一页的 URL 不是最后一页，则继续请求下一页
+        if next_url:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+            }
+            sec = random.uniform(1, 3)
+            time.sleep(sec)
+            yield scrapy.Request(url=next_url, headers=headers, callback=self.parse)
 
 
     # 解析详情页
@@ -152,11 +153,11 @@ class HouseAnjuke(scrapy.Spider):
         item['longitude'] = longitude
         item['latitude'] = latitude
 
-        # item["longitude"], item["latitude"] = bdToGaoDe(float(longitude), float(latitude))
-        # item["distance"] = geodesic((float(latitude), float(longitude)), (39.91092, 116.41338)).km
-        #
-        # target_point = ','.join([longitude, latitude])
-        # item["gaode"] = walks(target_point, '116.276554,39.904581')
+        item["longitude"], item["latitude"] = bdToGaoDe(float(longitude), float(latitude))
+        item["distance"] = geodesic((float(latitude), float(longitude)), (39.91092, 116.41338)).km
+        
+        target_point = ','.join([longitude, latitude])
+        item["gaode"] = walks(target_point, '116.276554,39.904581')
 
         # 维护时间
         # item["operate_time"] = response.xpath("//div[@class='content__subtitle']/text()").extract_first()
