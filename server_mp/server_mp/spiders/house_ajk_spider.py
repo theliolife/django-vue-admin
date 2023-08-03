@@ -78,8 +78,7 @@ class HouseAnjuke(scrapy.Spider):
     def parse(self, response):
         item = HouseItem()
         house_div = response.xpath("//div[@class='zu-itemmod']")
-	
-	# for each in [house_div[0]]:
+
         for each in house_div:
             item['source'] = 'ajk'
             item['title'] = each.xpath(".//div[@class='zu-info']//h3//a//b/text()").extract()[0].strip()
@@ -139,8 +138,10 @@ class HouseAnjuke(scrapy.Spider):
     # 解析详情页
     def parse_detail(self, response):
         item = response.meta["item"]
-        latText = response.xpath('//script/text()').extract()[1]
+        latText = response.xpath('//script[@type="text/javascript"]/text()').extract()[0]
 
+        print(latText)
+        exit(1)
         pattern = 'lng: "(.*)"'
         longitude = re.findall(pattern, latText)
         if len(longitude) > 0:

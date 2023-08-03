@@ -237,6 +237,7 @@ def reservation(params: dict, mobile: str):
 
 def select_geo(i: str):
     resp = requests.get(f"https://restapi.amap.com/v3/geocode/geo?key={AMAP_KEY}&output=json&address={i}")
+    print(f"https://restapi.amap.com/v3/geocode/geo?key={AMAP_KEY}&output=json&address={i}")
     geocodes: list = resp.json()['geocodes']
     return geocodes
 
