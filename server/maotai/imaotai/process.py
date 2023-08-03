@@ -16,7 +16,7 @@ AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
 SALT = '2af72f100c356273d46284f6fd1dfc08'
 
-AMAP_KEY = '9449339b6c4aee04d69481e6e6c84a84'
+AMAP_KEY = '1db68b73990b01267bfc63a1ce39e273'
 
 CURRENT_TIME = str(int(time.time() * 1000))
 headers = {}
