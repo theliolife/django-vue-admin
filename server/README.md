@@ -14,4 +14,6 @@ python3 manage.py runscript scripts.maotai.maotai_login -v2
 是否继续添加账号[Y/N]:n
 
 python3 manage.py runscript scripts.maotai.maotai_run
+
+python3 manage.py runserver 0.0.0.0:8000
 ```
