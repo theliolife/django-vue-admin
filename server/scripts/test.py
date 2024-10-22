@@ -27,6 +27,6 @@ def run(*args):
     # logger.info('请求成功！ response_code:{}；response_headers:{}；response_body:{}')
     # logger.error('请求出错-{}')
 
-    # stat_all_index()
-    runGuess()
+    stat_all_index()
+    # runGuess()
     # runQuarter()
