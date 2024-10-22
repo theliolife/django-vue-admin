@@ -233,7 +233,7 @@ def concat_guess_data(stock_column, data):
         else:
             tmp_dic[col] = data["last_price"]
     # print("##########tmp_dic: ", tmp_dic)
-    print("########################## BEGIN ##########################")
+    print("########################## stock_guess BEGIN ##########################")
     stock_guess = pd.DataFrame(tmp_dic, index=data.index.values)
     print(stock_guess.columns.values)
     # print(stock_guess.head())
